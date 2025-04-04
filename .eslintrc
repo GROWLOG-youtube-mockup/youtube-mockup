@@ -20,6 +20,13 @@
     "simple-import-sort/exports": "error",
     "unused-imports/no-unused-imports": "error",
     "simple-import-sort/imports": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "always"
+      }
+    ],
     "import/order": [
       "error",
       {

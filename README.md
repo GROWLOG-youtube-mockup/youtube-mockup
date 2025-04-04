@@ -11,9 +11,9 @@ youtube-mockup
 |    |      |-- VideoInfo.js
 |    |      |-- ShortsCard.js
 |    |--  styles
-|           |-- global.css
-|           |-- reset.css
-|           |-- outputt.css  #tailwind
+|    |      |-- global.css
+|    |      |-- reset.css
+|    |      |-- outputt.css  #tailwind
 |    |-- index.js
 |
 |-- assets

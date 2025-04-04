@@ -1,3 +1,5 @@
+프로젝트 구조
+```
 youtube-mockup
 |-- src
 |    |--  components
@@ -18,8 +20,5 @@ youtube-mockup
 |    |-- images
 |    |-- icons
 |
-|-- styles
-|    |-- global.css
-|    |-- reset.css
-|
 |-- index.html
+```

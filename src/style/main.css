@@ -1,0 +1,73 @@
+:root {
+  --sidebar-width: 240px;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family:  Roboto, Arial, sans-serif;
+}
+
+:lang(ko) {
+  h1, h2, h3 {
+    word-break: keep-all;
+  }
+}
+
+header {
+  background-color: aqua;
+  height: 56px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+
+.main-layout {
+  background-color: gray;
+  height: 100vh;
+  margin-top: 56px;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  width: var(--sidebar-width);
+  background-color: pink;
+  /* overflow-y: scroll; */
+}
+
+.content {
+  width: calc(100% - var(--sidebar-width));
+  height: 100%;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+}
+
+.chip-categories {
+  position: fixed;
+  display: flex;
+  height: 56px;
+  width: inherit;
+  background-color: bisque;
+}
+
+.video-grid {
+  background-color: blueviolet;
+  height: 1000px;
+}

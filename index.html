@@ -4,48 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./src/style/output.css" rel="stylesheet">
-    <link href="./src/style/VideoGrid.css" rel="stylesheet">
+    <link href="./src/style/reset.css" rel="stylesheet" />
+    <link href="./src/style/main.css" rel="stylesheet" />
     <title>youtube</title>
   </head>
   <body>
-    <!-- <div id="app"></div>
-    <script type="module" src="/src/main.js"></script> -->
+    <!-- 상단 헤더 -->
+    <header class="header"></header>
 
-    <header></header>
-    <side_bar></side_bar>
-    <main>
-      <category></category>
-      <!-- video-grid section -->
-      <section class="video-grid">
-        <!-- video-row  -->
-        <div class="video-row">
-          <video-card> video-card
-            <vide-thumbnail></vide-thumbnail>
-            <video-info></video-info>
-          </video-card>
-          <video-card>video-card</video-card>
-          <video-card>video-card</video-card>
-          <video-card>video-card</video-card>
-        </div>
-        <!-- shorts-row -->
-        <shorts_card></shorts_card>
-      </section>
+    <div class="main-layout">
+      <!-- 좌측 내비게이션 사이드바 -->
+      <aside class="sidebar" aria-label="Main menu"></aside>
+
+      <!-- 주요 콘텐츠 영역 -->
+      <main class="content">
+        <!-- chips contents (카테고리 선택 영역) -->
+        <div class="chip-categories" aria-label="Video categories"></div>
+
+        <!-- video grid (영상 썸네일 / 무한 스크롤) -->
+        <div class="video-grid" aria-label="Video feed"></div>
       </main>
-      <nav_bar></nav_bar>
-
-  <script type="module" src="./src/index.js"></script>
-
+    </div>
   </body>
+
 </html>
-
-
-
-
-
-<!-- <video-grid class="text-red-400 grid grid-cols-4 gap-y-[40px] gap-x[16px] m-[10px] ">     -->
-
-<!-- 
-vite
-tailwindCSS 
--->

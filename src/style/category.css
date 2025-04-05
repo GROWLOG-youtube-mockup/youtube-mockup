@@ -17,7 +17,8 @@
   overflow-y: hidden;
   flex: 1;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .chip-scroll::-webkit-scrollbar {

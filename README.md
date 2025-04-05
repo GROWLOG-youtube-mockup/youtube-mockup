@@ -12,9 +12,10 @@ youtube-mockup
 |    |      |-- VideoInfo.js
 |    |      |-- ShortsCard.js
 |    |-- styles/
-|    |      |-- global.css
+|    |      |-- main.css
 |    |      |-- reset.css
-|    |      |-- outputt.css        #tailwind
+|    |      |-- output.css        #tailwind
+|    |      |-- Sidebar.css
 |-- assets/
 |    |-- images/
 |    |-- icons/

@@ -18,12 +18,23 @@ class Category {
     ]; // 카테고리 목록
     this.chips = [];
     this.selectedCategory = null;
+    this.arrow = { right: null, left: null };
 
     this.init();
     this.addDragging();
   }
 
   init() {
+    this.arrow.right = createElement('div', this.categoryDiv, {
+      className: 'right_arrow'
+      // display: 'none'
+    });
+
+    this.arrow.left = createElement('div', this.categoryDiv, {
+      className: 'left_arrow'
+      // display: 'none'
+    });
+
     this.categories.forEach((category, index) => {
       const div = createElement('div', this.categoryDiv, {
         className: 'chip',
@@ -42,6 +53,13 @@ class Category {
 
         this.selectedCategory = e.target.innerText;
         e.target.classList.add('chip_active');
+      });
+    });
+
+    Object.entries(this.arrow).forEach(([key, value]) => {
+      const button = createElement('div', value, {
+        className: 'button-shape',
+        innerText: key === 'right' ? '>' : '<'
       });
     });
   }
@@ -77,6 +95,10 @@ class Category {
       isDragging = false;
     });
   }
+
+  showArrowButton() {}
+
+  hideArrowButton() {}
 }
 
 export default Category;

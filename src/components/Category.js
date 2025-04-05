@@ -16,7 +16,6 @@ class Category {
       '쇼츠'
     ];
     this.selectedCategory = null;
-
     this.chipScroll = null;
     this.arrow = { right: null, left: null };
 
@@ -58,6 +57,7 @@ class Category {
 
       chip.addEventListener('click', () => {
         const currentActive = this.chipScroll.querySelector('.chip_active');
+
         if (currentActive !== chip) {
           currentActive?.classList.remove('chip_active');
           chip.classList.add('chip_active');

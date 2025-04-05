@@ -16,7 +16,8 @@ class Category {
       '브이로그',
       '쇼츠'
     ]; // 카테고리 목록
-    this.chips = [];
+    // this.chips = [];
+    this.chipScroll = null;
     this.selectedCategory = null;
     this.arrow = { right: null, left: null };
 
@@ -35,8 +36,12 @@ class Category {
       // display: 'none'
     });
 
+    this.chipScroll = createElement('div', this.categoryDiv, {
+      className: 'chip-scroll'
+    });
+
     this.categories.forEach((category, index) => {
-      const div = createElement('div', this.categoryDiv, {
+      const div = createElement('div', this.chipScroll, {
         className: 'chip',
         innerText: category,
         classList: {
@@ -69,36 +74,32 @@ class Category {
     let startX;
     let scrollLeft;
 
-    this.categoryDiv.addEventListener('mousedown', (e) => {
+    this.chipScroll.addEventListener('mousedown', (e) => {
       isDragging = true;
-      startX = e.pageX - this.categoryDiv.offsetLeft;
-      scrollLeft = this.categoryDiv.scrollLeft;
+      startX = e.pageX - this.chipScroll.offsetLeft;
+      scrollLeft = this.chipScroll.scrollLeft;
     });
 
-    this.categoryDiv.addEventListener('mouseup', () => {
+    this.chipScroll.addEventListener('mouseup', () => {
       isDragging = false;
     });
 
-    this.categoryDiv.addEventListener('mousemove', (e) => {
+    this.chipScroll.addEventListener('mousemove', (e) => {
       if (!isDragging) {
         return;
       }
 
       e.preventDefault();
 
-      const x = e.pageX - this.categoryDiv.offsetLeft;
+      const x = e.pageX - this.chipScroll.offsetLeft;
       const walk = (x - startX) * 1.5;
-      this.categoryDiv.scrollLeft = scrollLeft - walk;
+      this.chipScroll.scrollLeft = scrollLeft - walk;
     });
 
-    this.categoryDiv.addEventListener('mouseleave', () => {
+    this.chipScroll.addEventListener('mouseleave', () => {
       isDragging = false;
     });
   }
-
-  showArrowButton() {}
-
-  hideArrowButton() {}
 }
 
 export default Category;

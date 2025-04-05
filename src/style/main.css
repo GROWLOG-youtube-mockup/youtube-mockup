@@ -19,11 +19,13 @@ html {
 
 body {
   font-size: 1.6rem;
-  font-family:  "Roboto", Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 :lang(ko) {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     word-break: keep-all;
   }
 }

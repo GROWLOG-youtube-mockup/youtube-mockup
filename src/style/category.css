@@ -1,0 +1,100 @@
+#chip-categories {
+  position: fixed;
+  display: flex;
+  height: 56px;
+  width: inherit;
+  min-width: 230px;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.chip-scroll {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.chip-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  width: fit-content;
+  margin: 12px 12px 12px 0;
+  padding: 0 10px;
+  cursor: pointer;
+
+  background: rgba(0, 0, 0, 0.05);
+  color: #212121;
+  border-radius: 10px;
+  box-sizing: border-box;
+  outline: none;
+
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2rem;
+  white-space: nowrap;
+
+  transition: rgba(0, 0, 0, 0.1) 0.5s cubic-bezier(0.05, 0, 0, 1);
+
+  user-select: none;
+}
+
+.chip:hover:not(.chip_active) {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.chip_active {
+  background: #212121;
+  color: #fff;
+  cursor: default;
+}
+
+.right_arrow, .left_arrow {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 106px;
+  z-index: 2;
+  display: flex;
+  -moz-box-orient: horizontal;
+  -moz-box-direction: normal;
+  flex-direction: row;
+  -moz-box-pack: center;
+  align-items: center
+}
+
+.right_arrow {
+  right: 24px;
+  background: linear-gradient(to left, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  justify-content: flex-end;
+}
+
+.left_arrow {
+  left: 24px;
+  background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  justify-content: flex-start;
+}
+
+.button-shape {
+  color: #030303;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.button-shape:hover {
+  background: rgba(0, 0, 0, 0.1);
+}

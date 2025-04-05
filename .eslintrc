@@ -19,6 +19,7 @@
   "rules": {
     "simple-import-sort/exports": "error",
     "unused-imports/no-unused-imports": "error",
+    "import/prefer-default-export": "off",
     "simple-import-sort/imports": "error",
     "import/extensions": [
       "error",

@@ -36,6 +36,13 @@ class Category {
           className: ['chip_active']
         }
       });
+
+      div.addEventListener('click', (e) => {
+        this.categoryDiv.querySelector('.chip_active').classList.remove('chip_active');
+
+        this.selectedCategory = e.target.innerText;
+        e.target.classList.add('chip_active');
+      });
     });
   }
 

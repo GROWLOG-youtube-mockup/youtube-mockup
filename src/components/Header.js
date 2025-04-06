@@ -41,4 +41,34 @@ export default function Header() {
     `;
 
     middleSection.append(searchForm);
+
+    //오른쪽 섹션 (만들기, 알림, 프로필)
+    const rightSections = document.createElement('div');
+    rightSections.className = 'header-right';
+
+    const createButton = document.createElement('button');
+    createButton.className = 'create-button';
+    createButton.innerHTML = `
+        <img src="/assets/icons/upload_plus.png">
+        <span>만들기</span>
+    `;
+
+    const notificationButton = document.createElement('button');
+    notificationButton.className = 'notification-button';
+    notificationButton.innerHTML = `<img src="/assets/icons/notifications.svg">`;
+
+    const profileButton = document.createElement('button');
+    profileButton.className = 'profile-button';
+    profileButton.innerHTML = `<img src="/images/avatars/avatar-1.png">`;
+
+    rightSections.append(createButton);
+    rightSections.append(notificationButton);
+    rightSections.append(profileButton);
+
+    // 헤더 요소에 추가
+    header.append(leftSections);
+    header.append(middleSection);
+    header.append(rightSections);
+
+    return header;
 }

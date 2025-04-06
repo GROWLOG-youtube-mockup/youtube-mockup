@@ -22,5 +22,23 @@ export default function Header() {
     leftSections.append(hamburgerButton);
     leftSections.append(logoLink);
 
+    // 중앙 섹션(검색 영역)
+    const middleSection = document.createElement('div');
+    middleSection.className = 'header-center';
     
+    const searchForm = document.createElement('form');
+    searchForm.className ='search-form';
+    searchForm.innerHTML=`
+        <div>
+            <input type="text" placeholder="검색" class="search-input">
+            <button type="submit" class="search-button">
+                <img src="/assets/icons/search-icon.svg">
+            </button>
+        </div>
+        <button type="button" class="voice-search-button">
+            <img src="/assets/icons/voice-search-icon.svg">
+        </button>
+    `;
+
+    middleSection.append(searchForm);
 }

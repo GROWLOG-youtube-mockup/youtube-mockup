@@ -1,0 +1,109 @@
+.shorts-header {
+  background-color: red;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 45px;
+  width: 100vw;
+  padding-bottom: 20px;
+}
+
+.shorts-header-container {
+  background-color: dodgerblue;
+  display: flex;
+  flex-direction: row;
+  margin-left: 15px;
+  height: 30px;
+}
+
+.shorts-container-icon-box {
+  height: inherit;
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.shorts-icon {
+  height: 25px;
+  background-color: aqua;
+}
+
+.shorts-title {
+  background-color: brown;
+  font-size: 20px;
+  font-weight: 800;
+  height: inherit;
+}
+
+.shorts-three-dots {
+  background-color: rebeccapurple;
+  margin-right: 15px;
+  height: 30px;
+}
+
+.shorts-three-dots-icon {
+  height: inherit;
+}
+
+.shorts-cards-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.shorts-cards {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 7px;
+}
+
+.shorts-cards-thumbnails {
+  width: inherit;
+}
+
+.shorts-cards-thumbnails-img {
+  border-radius: 10px;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}
+
+.shorts-cards-thumbnails-under {
+  display: flex;
+  flex-direction: row;
+}
+
+.shorts-cards-text {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+}
+
+.shorts-cards-text-title {
+  /* tailwind 경고 차단을 위한 표준 속성을 웹킷과 함께 사용 */
+  display: -webkit-box;
+  display: box; /* 표준 속성 */
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* 표준 속성 */
+  -webkit-box-orient: vertical;
+  box-orient: vertical; /* 표준 속성 */
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  overflow: hidden;
+}
+
+.shorts-cards-text-viewed {
+  font-size: 13px;
+}
+
+.shorts-cards-three-dots {
+  height: 23px;
+  margin: 10px;
+  margin-top: 12px;
+}
+
+.shorts-cards-three-dots-icon {
+  height: 15px;
+}

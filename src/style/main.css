@@ -73,3 +73,9 @@ header {
   background-color: blueviolet;
   height: 1000px;
 }
+
+.shorts-container {
+  background-color: lightcoral;
+  height: 500px;
+  display: flex;
+}

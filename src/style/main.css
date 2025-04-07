@@ -1,10 +1,5 @@
 :root {
   --sidebar-width: 240px;
-  --shorts-header-height: 45px;
-  --shorts-cards-width: 200px;
-  --shorts-cards-max-width: 300px;
-  --shorts-cards-min-width: 160px;
-  --shorts-three-dots-size: 20px;
 }
 
 html {

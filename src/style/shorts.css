@@ -1,23 +1,24 @@
+:root {
+  --shorts-header-height: 45px;
+  --shorts-cards-min-width: 160px;
+  --shorts-three-dots-size: 20px;
+}
+
 .shorts-header {
-  background-color: red;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  height: var(--shorts-header-height);
   width: 100%;
+  height: var(--shorts-header-height);
   padding-bottom: 20px;
 }
 
 .shorts-header-container {
-  background-color: dodgerblue;
   display: flex;
-  flex-direction: row;
   margin-left: 15px;
   height: 30px;
 }
 
 .shorts-container-icon-box {
-  height: inherit;
   display: flex;
   align-items: center;
   margin-right: 6px;
@@ -25,18 +26,14 @@
 
 .shorts-icon {
   height: 25px;
-  background-color: aqua;
 }
 
 .shorts-title {
-  background-color: brown;
   font-size: 20px;
   font-weight: 800;
-  height: inherit;
 }
 
 .shorts-three-dots {
-  background-color: rebeccapurple;
   margin-right: 15px;
   height: var(--shorts-three-dots-size);
 }
@@ -47,19 +44,19 @@
 
 .shorts-cards-container {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  margin-left: 4px;
+  flex-wrap: nowrap;
   width: 100%;
+  overflow: hidden;
+  gap: 15px;
+  padding: 7px 16px;
+  box-sizing: border-box;
 }
 
 .shorts-cards {
   display: flex;
   flex-direction: column;
-  width: var(--shorts-cards-width);
-  max-width: var(--shorts-cards-max-width);
-  min-width: var(--shorts-cards-min-width);
-  margin: 7px 14px 7px 0px;
+  flex: 0 0 calc((100% - 15px * 6) / 7);
 }
 
 .shorts-cards-thumbnails {
@@ -69,16 +66,15 @@
 }
 
 .shorts-cards-thumbnails-img {
-  border-radius: 10px;
   width: 100%;
   height: 100%;
+  border-radius: 10px;
   object-fit: cover;
 }
 
 .shorts-cards-thumbnails-under {
-  display: flex;
-  flex-direction: row;
   position: relative;
+  display: flex;
 }
 
 .shorts-cards-text {
@@ -108,16 +104,15 @@
 }
 
 .shorts-cards-three-dots {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
   top: 8px;
   left: calc(80% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .shorts-cards-three-dots:hover {
@@ -125,6 +120,57 @@
 }
 
 .shorts-cards-three-dots-icon {
-  height: var(--shorts-three-dots-size);
   width: var(--shorts-three-dots-size);
+  height: var(--shorts-three-dots-size);
+}
+
+/* 6개 */
+@media (max-width: 1730px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 5) / 6);
+  }
+  .shorts-cards:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+/* 5개 */
+@media (max-width: 1440px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 4) / 5);
+  }
+  .shorts-cards:nth-child(n + 6) {
+    display: none;
+  }
+}
+
+/* 4개 */
+@media (max-width: 1215px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 3) / 4);
+  }
+  .shorts-cards:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+/* 3개 */
+@media (max-width: 999px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 2) / 3);
+  }
+  .shorts-cards:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+/* 2개 */
+@media (max-width: 649px) {
+  .shorts-cards {
+    /* 사이드 바 너비에 따라 크기가 변동 될 것 같아 디버깅 확인용으로 min-width 설정을 추가하였음. */
+    flex: 0 0 max(var(--shorts-cards-min-width), calc((100% - 15px) / 2));
+  }
+  .shorts-cards:nth-child(n + 3) {
+    display: none;
+  }
 }

@@ -152,22 +152,19 @@
 }
 
 /* 반응형 스타일 */
-@media (max-width: 656px) {
-  .header-center {
-    margin: 0 8px;
-  }
-  
-  .voice-search-button {
-    display: none;
+@media (max-width: 1023px) {
+  .search-input {
+    min-width: 140px;
   }
 }
 
-@media (max-width: 460px) {
-  .header-center {
+/* 반응형: 모바일 - 검색창 없애고 돋보기만 */
+@media (max-width: 767px) {
+  .search-input {
     display: none;
   }
-  
-  .header-right {
-    margin-left: auto;
+
+  .only-icon {
+    display: block;
   }
 }

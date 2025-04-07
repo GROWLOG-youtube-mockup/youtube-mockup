@@ -1,71 +1,72 @@
-export default function Header() {
-  // 헤더 요소 생성
-  const header = document.createElement('header');
-  header.className = 'header';
+class Header {
+  constructor() {
+    this.header = document.querySelector('.header');
+    this.init();
+  }
 
-  // 왼쪽 섹션(햄버거 버튼 + 로고)
-  const leftSections = document.createElement('div');
-  leftSections.className = 'header-left';
+  init() {
+    this.render();
+    this.addEventListeners();
+  }
 
-  const hamburgerButton = document.createElement('button');
-  hamburgerButton.className = 'hamburger-button';
-  hamburgerButton.innerHTML = `<img src="/assets/icons/hamburger-menu.svg">`;
-
-  const logoLink = document.createElement('a');
-  logoLink.href = '/';
-  logoLink.className = 'youtube-logo';
-  logoLink.innerHTML = `<img src="/assets/icons/youtube-logo.svg">`;
-
-  leftSections.append(hamburgerButton);
-  leftSections.append(logoLink);
-
-  // 중앙 섹션(검색 영역)
-  const middleSection = document.createElement('div');
-  middleSection.className = 'header-center';
-
-  const searchForm = document.createElement('form');
-  searchForm.className = 'search-form';
-  searchForm.innerHTML = `
-        <div>
-            <input type="text" placeholder="검색" class="search-input">
-            <button type="submit" class="search-button">
-                <img src="/assets/icons/search-icon.svg">
-            </button>
+  render() {
+    this.header.innerHTML = `
+        <div class="header-left">
+          <button class="menu-button">
+            <img src="./assets/icons/menu.svg" alt="메뉴">
+          </button>
+          <a href="/" class="youtube-logo">
+            <img src="/assets/icons/youtube-logo.svg" alt="YouTube">
+          </a>
         </div>
-        <button type="button" class="voice-search-button">
-            <img src="/assets/icons/voice-search-icon.svg">
-        </button>
-    `;
+        
+        <div class="header-center">
+          <form class="search-form">
+            <div class="search-container">
+              <input type="text" placeholder="검색" class="search-input">
+              <button type="submit" class="search-button">
+                <img src="/assets/icons/search-icon.svg" alt="검색">
+              </button>
+            </div>
+            <button type="button" class="voice-search-button">
+              <img src="/assets/icons/voice-search-icon.svg" alt="음성으로 검색">
+            </button>
+          </form>
+        </div>
+        
+        <div class="header-right">
+          <button class="create-button">
+            <img src="/assets/icons/upload_plus.png" alt="만들기">
+            <span>만들기</span>
+          </button>
+          <button class="notifications-button">
+            <img src="/assets/icons/notifications.svg" alt="알림">
+          </button>
+          <button class="profile-button">
+            <img src="/assets/images/avatars/avatar-1.png" alt="프로필" class="profile-img">
+          </button>
+        </div>
+      `;
+  }
 
-  middleSection.append(searchForm);
+  addEventListeners() {
+    // const menuButton = this.header.querySelector('.sidebar-toggle-btn');
+    const searchForm = this.header.querySelector('.search-form');
 
-  // 오른쪽 섹션 (만들기, 알림, 프로필)
-  const rightSections = document.createElement('div');
-  rightSections.className = 'header-right';
+    /* menuButton.addEventListener('click', () => {
+      this.toggleSidebar();
+    }); */
 
-  const createButton = document.createElement('button');
-  createButton.className = 'create-button';
-  createButton.innerHTML = `
-        <img src="/assets/icons/upload_plus.png">
-        <span>만들기</span>
-    `;
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // 검색 기능 구현 자리
+    });
+  }
 
-  const notificationButton = document.createElement('button');
-  notificationButton.className = 'notification-button';
-  notificationButton.innerHTML = `<img src="/assets/icons/notifications.svg">`;
-
-  const profileButton = document.createElement('button');
-  profileButton.className = 'profile-button';
-  profileButton.innerHTML = `<img src="/assets/images/avatars/avatar-1.png">`;
-
-  rightSections.append(createButton);
-  rightSections.append(notificationButton);
-  rightSections.append(profileButton);
-
-  // 헤더 요소에 추가
-  header.append(leftSections);
-  header.append(middleSection);
-  header.append(rightSections);
-
-  return header;
+  /* 햄버거 버튼 눌러서 사이드바 오픈 함수
+  toggleSidebar() {
+    this.header.classList.toggle('sidebar-open');
+  } */
 }
+
+export default Header;

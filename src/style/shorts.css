@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 45px;
-  width: 100vw;
+  height: var(--shorts-header-height);
+  width: 100%;
   padding-bottom: 20px;
 }
 
@@ -38,7 +38,7 @@
 .shorts-three-dots {
   background-color: rebeccapurple;
   margin-right: 15px;
-  height: 30px;
+  height: var(--shorts-three-dots-size);
 }
 
 .shorts-three-dots-icon {
@@ -48,13 +48,15 @@
 .shorts-cards-container {
   display: flex;
   flex-direction: row;
+  margin-left: 4px;
+  width: 100%;
 }
 
 .shorts-cards {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  margin: 7px;
+  width: var(--shorts-cards-width);
+  margin: 7px 14px 7px 0px;
 }
 
 .shorts-cards-thumbnails {
@@ -70,12 +72,13 @@
 .shorts-cards-thumbnails-under {
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
 .shorts-cards-text {
   display: flex;
   flex-direction: column;
-  width: 180px;
+  width: 80%;
 }
 
 .shorts-cards-text-title {
@@ -99,11 +102,23 @@
 }
 
 .shorts-cards-three-dots {
-  height: 23px;
-  margin: 10px;
-  margin-top: 12px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 8px;
+  left: calc(80% + 8px);
+}
+
+.shorts-cards-three-dots:hover {
+  background-color: rgb(174, 174, 174);
 }
 
 .shorts-cards-three-dots-icon {
-  height: 15px;
+  height: var(--shorts-three-dots-size);
+  width: var(--shorts-three-dots-size);
 }

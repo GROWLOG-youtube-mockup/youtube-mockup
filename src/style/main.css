@@ -1,5 +1,8 @@
 :root {
   --sidebar-width: 240px;
+  --shorts-header-height: 45px;
+  --shorts-cards-width: 200px;
+  --shorts-three-dots-size: 20px;
 }
 
 html {
@@ -78,5 +81,5 @@ header {
   background-color: lightcoral;
   display: flex;
   flex-direction: column;
-  padding-top: 56px; /* 카테고리 바 높이만큼 패딩을 넣어서 작업하는 과정을 볼 수 있도록 함. */
+  padding-top: 300px; /* 카테고리 바 높이만큼 패딩을 넣어서 작업하는 과정을 볼 수 있도록 함. */
 }

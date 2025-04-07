@@ -19,11 +19,13 @@ html {
 
 body {
   font-size: 1.6rem;
-  font-family:  "Roboto", Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 :lang(ko) {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     word-break: keep-all;
   }
 }
@@ -37,7 +39,6 @@ header {
 }
 
 .main-layout {
-  background-color: gray;
   height: 100vh;
   margin-top: 56px;
 }
@@ -68,6 +69,8 @@ header {
 }
 
 .video-grid {
-  background-color: blueviolet;
-  height: 1000px;
+  z-index: -1;
+  height: 100%;
+  position: relative;
+  top: 56px;
 }

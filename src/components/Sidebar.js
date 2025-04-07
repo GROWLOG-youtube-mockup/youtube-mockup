@@ -85,7 +85,7 @@ class Sidebar {
     
         items.forEach((item) => {
           item.addEventListener('click', () => {
-            items.forEach((el) => el.classList.remove('sidebar__item--active'));
+            items.forEach((sidebarItem) => sidebarItem.classList.remove('sidebar__item--active'));
     
             item.classList.add('sidebar__item--active');
           });

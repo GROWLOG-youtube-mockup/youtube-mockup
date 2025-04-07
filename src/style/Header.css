@@ -1,0 +1,173 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* 왼쪽 섹션 스타일 */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.menu-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+.menu-button:hover {
+  background-color: #f0f0f0;
+}
+
+.youtube-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 20px;
+}
+
+.youtube-logo img {
+  height: 20px;
+}
+
+/* 중앙 섹션 스타일 */
+.header-center {
+  flex: 0 1 732px;
+  margin: 0 40px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-container {
+  display: flex;
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 40px 0 0 40px;
+  background-color: white;
+  height: 40px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 16px;
+  font-size: 16px;
+  border-radius: 40px 0 0 40px;
+}
+
+.search-button {
+  width: 64px;
+  height: 40px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 40px 40px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.voice-search-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f8f8f8;
+  border: none;
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 오른쪽 섹션 스타일 */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.create-button,
+.notifications-button,
+.profile-button {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.create-button:hover,
+.notifications-button:hover,
+.profile-button:hover {
+  background-color: #f0f0f0;
+}
+
+.profile-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: #cc0000;
+  color: white;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0 4px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 656px) {
+  .header-center {
+    margin: 0 8px;
+  }
+  
+  .voice-search-button {
+    display: none;
+  }
+}
+
+@media (max-width: 460px) {
+  .header-center {
+    display: none;
+  }
+  
+  .header-right {
+    margin-left: auto;
+  }
+}

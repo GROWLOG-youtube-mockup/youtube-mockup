@@ -59,15 +59,75 @@ class VideoGrid {
         title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
         channelId: 'Channel 8',
         videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-1.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 1',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-2.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 2',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-3.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 3',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-4.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 4',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-5.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 5',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-6.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 6',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-7.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 7',
+        videoState: '조회수 14만회  6일 전'
+      },
+      {
+        videoThumbnail: '../../assets/images/thumbnails/thumbnail-8.jpeg',
+        avatar: '../../assets/images/avatars/avatar-1.png',
+        title: 'Playlist 요즘 가장 인기 있는 음악  🎶  지금 듣기 좋은 플레이리스트 🎧',
+        channelId: 'Channel 8',
+        videoState: '조회수 14만회  6일 전'
       }
     ];
     this.init();
   }
 
   init() {
+    // 비디오 카드 생성하기
     this.videos.forEach((item) => {
       this.createVideoCard(item);
     });
+
+    // 쇼츠 열(Row) 생성하기
+    this.shortsRow = createElement('div', this.vidioGrid, { className: 'shorts-row' });
   }
 
   createVideoCard(item) {

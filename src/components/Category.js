@@ -54,19 +54,21 @@ class Category {
         chip.classList.add('chip_active');
         this.selectedCategory = category;
       }
-
-      chip.addEventListener('click', () => {
-        const currentActive = this.chipScroll.querySelector('.chip_active');
-
-        if (currentActive !== chip) {
-          currentActive?.classList.remove('chip_active');
-          chip.classList.add('chip_active');
-          this.selectedCategory = category;
-        }
-      });
     });
 
     this.updateArrowVisibility(); // 초기 상태에서 화살표 표시 결정
+
+    this.chipScroll.addEventListener('click', (e) => {
+      const target = e.target.closest('.chip');
+      if (!target || !this.chipScroll.contains(target)) return;
+
+      const currentActive = this.chipScroll.querySelector('.chip_active');
+      if (currentActive !== target) {
+        currentActive?.classList.remove('chip_active');
+        target.classList.add('chip_active');
+        this.selectedCategory = target.innerText;
+      }
+    });
   }
 
   scrollBy(offset) {

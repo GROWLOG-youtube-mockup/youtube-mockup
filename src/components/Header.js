@@ -13,10 +13,10 @@ class Header {
     this.header.innerHTML = `
         <div class="header-left">
           <button class="menu-button">
-            <img src="./assets/icons/menu.svg" alt="메뉴">
+            <img src="/assets/icons/Hamburger_icon.png" alt="메뉴">
           </button>
           <a href="/" class="youtube-logo">
-            <img src="/assets/icons/youtube-logo.svg" alt="YouTube">
+            <img src="/assets/icons/youtube-logo-b.png" alt="YouTube">
           </a>
         </div>
         
@@ -29,9 +29,17 @@ class Header {
               </button>
             </div>
             <button type="button" class="voice-search-button">
-              <img src="/assets/icons/voice-search-icon.svg" alt="음성으로 검색">
+              <img src="/assets/icons/voice-search.png" alt="음성으로 검색">
             </button>
           </form>
+          <div class="mobile-search-buttons">
+            <button type="button" class="search-icon-button">
+              <img src="/assets/icons/search-icon.svg" alt="검색">
+            </button>
+            <button type="button" class="mobile-voice-search-button">
+              <img src="/assets/icons/voice-search.png" alt="음성으로 검색">
+            </button>
+          </div>
         </div>
         
         <div class="header-right">
@@ -40,7 +48,7 @@ class Header {
             <span>만들기</span>
           </button>
           <button class="notifications-button">
-            <img src="/assets/icons/notifications.svg" alt="알림">
+            <img src="/assets/icons/notification.png" alt="알림">
           </button>
           <button class="profile-button">
             <img src="/assets/images/avatars/avatar-1.png" alt="프로필" class="profile-img">

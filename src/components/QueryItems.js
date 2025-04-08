@@ -38,7 +38,7 @@ class QueryItems {
   }
 
   // 카테고리별 비디오 로드
-  getCatrgoryVideos(item) {
+  getCategoryVideos(item) {
     if (!item) {
       return;
     }

@@ -5,10 +5,8 @@
   height: 56px;
   padding: 0 16px;
   background-color: white;
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -17,6 +15,7 @@
 .header-left {
   display: flex;
   align-items: center;
+  min-width: 120px;
 }
 
 .menu-button {
@@ -35,10 +34,10 @@
 }
 
 .youtube-logo {
+  height: 20px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  text-decoration: none;
-  height: 20px;
 }
 
 .youtube-logo img {
@@ -47,22 +46,28 @@
 
 /* 중앙 섹션 스타일 */
 .header-center {
-  flex: 0 1 732px;
-  margin: 0 40px;
+  flex: 1;
+  max-width: 732px;
+  margin: 0 24px;
+  display: flex;
+  align-items: center;
 }
 
 .search-form {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .search-container {
-  display: flex;
   flex: 1;
-  border: 1px solid #ccc;
-  border-radius: 40px 0 0 40px;
-  background-color: white;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 40px;
+  background-color: #f9f9f9;
   height: 40px;
+  overflow: hidden;
 }
 
 .search-input {
@@ -72,14 +77,15 @@
   padding: 0 16px;
   font-size: 16px;
   border-radius: 40px 0 0 40px;
+  background-color: transparent;
 }
 
 .search-button {
   width: 64px;
   height: 40px;
-  background-color: #f8f8f8;
-  border: 1px solid #ccc;
-  border-left: none;
+  background-color: #f0f0f0;
+  border: none;
+  border-left: 1px solid #ccc;
   border-radius: 0 40px 40px 0;
   cursor: pointer;
   display: flex;
@@ -87,11 +93,25 @@
   justify-content: center;
 }
 
+.search-button:hover {
+  background-color: #e0e0e0;
+}
+
+.search-button img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+.search-button:hover img {
+  opacity: 0.8;
+}
+
 .voice-search-button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #f8f8f8;
+  background-color: #f9f9f9;
   border: none;
   margin-left: 8px;
   cursor: pointer;
@@ -100,14 +120,87 @@
   justify-content: center;
 }
 
-/* 오른쪽 섹션 스타일 */
-.header-right {
-  display: flex;
+.voice-search-button:hover {
+  background-color: #e9e9e9;
+}
+
+.voice-search-button img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+.voice-search-button:hover img {
+  opacity: 0.8;
+}
+
+/* 모바일 검색 버튼 컨테이너 */
+.mobile-search-buttons {
+  display: none;
   align-items: center;
   gap: 8px;
 }
 
-.create-button,
+/* 검색 아이콘 버튼 (가장 작은 화면을 위함) */
+.search-icon-button,
+.mobile-voice-search-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon-button:hover,
+.mobile-voice-search-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-icon-button img,
+.mobile-voice-search-button img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+.search-icon-button:hover img,
+.mobile-voice-search-button:hover img {
+  opacity: 0.8;
+}
+
+/* 오른쪽 섹션 스타일 */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 120px;
+  justify-content: flex-end;
+}
+
+.create-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 18px;
+  padding: 0 12px;
+  height: 36px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.create-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+
 .notifications-button,
 .profile-button {
   width: 40px;
@@ -123,9 +216,13 @@
 }
 
 .create-button:hover,
-.notifications-button:hover,
-.profile-button:hover {
-  background-color: #f0f0f0;
+.notifications-button:hover {
+  background-color: #e0e0e0;
+}
+
+.notifications-button img {
+  width: 22px;
+  height: 22px;
 }
 
 .profile-img {
@@ -153,18 +250,37 @@
 
 /* 반응형 스타일 */
 @media (max-width: 1023px) {
-  .search-input {
-    min-width: 140px;
+  .header-center {
+    margin: 0 12px;
   }
 }
 
-/* 반응형: 모바일 - 검색창 없애고 돋보기만 */
 @media (max-width: 767px) {
-  .search-input {
+  .header-center {
+    flex: 0 1 auto;
+  }
+
+  .search-form {
     display: none;
   }
 
-  .only-icon {
-    display: block;
+  .mobile-search-buttons {
+    display: flex;
+  }
+
+  .create-button img {
+    margin-right: 0;
+  }
+}
+
+/* 매우 작은 화면에서 추가 조정 */
+@media (max-width: 480px) {
+  .header-left {
+    min-width: 90px;
+  }
+
+  .header-right {
+    min-width: 90px;
+    gap: 4px;
   }
 }

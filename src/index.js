@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const category = new Category((selectedCategory) => {
     console.log('Selected category:', selectedCategory);
 
-    const filteredVideos = queryItems.getCatrgoryVideos(selectedCategory);
+    const filteredVideos = queryItems.getCategoryVideos(selectedCategory);
 
     // filteredVideos 값 확인
     console.log('Filtered Videos:', filteredVideos);

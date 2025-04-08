@@ -169,5 +169,20 @@ class VideoGrid {
       innerText: '...'
     });
   }
+
+  updateVideos(newVideos) {
+    if (!newVideos || !newVideos.length) {
+      console.error("No videos to update");
+      return;
+    }
+
+    this.videos = newVideos; // 새로운 비디오 데이터로 업데이트
+
+    // 기존 콘텐츠 비우기
+    this.vidioGrid.innerHTML = '';
+
+    // 다시 초기화하여 새로운 비디오 렌더링
+    this.init();
+  }
 }
 export default VideoGrid;

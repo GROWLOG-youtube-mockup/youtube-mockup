@@ -15,6 +15,7 @@ youtube-mockup
 |    |      |-- global.css
 |    |      |-- reset.css
 |    |      |-- outputt.css        #tailwind
+|    |      |-- Header.css
 |-- assets/
 |    |-- images/
 |    |-- icons/

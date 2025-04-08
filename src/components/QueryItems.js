@@ -1,6 +1,5 @@
 import VideoGrid from './VideoGrid.js'; // VideoGrid 클래스 import
-
-const API_KEY = "AIzaSyBotWYrjKZPcKmP1KLh89AoflNkEbkxQJ0";
+import { API_KEY } from './const.js';
 
 class QueryItems {
   initializeApp() {

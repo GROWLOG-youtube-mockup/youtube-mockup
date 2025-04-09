@@ -1,0 +1,176 @@
+:root {
+  --shorts-header-height: 45px;
+  --shorts-cards-min-width: 160px;
+  --shorts-three-dots-size: 20px;
+}
+
+.shorts-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--shorts-header-height);
+  padding-bottom: 20px;
+}
+
+.shorts-header-container {
+  display: flex;
+  margin-left: 15px;
+  height: 30px;
+}
+
+.shorts-container-icon-box {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.shorts-icon {
+  height: 25px;
+}
+
+.shorts-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.shorts-three-dots {
+  margin-right: 15px;
+  height: var(--shorts-three-dots-size);
+}
+
+.shorts-three-dots-icon {
+  height: inherit;
+}
+
+.shorts-cards-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow: hidden;
+  gap: 15px;
+  padding: 7px 16px;
+  box-sizing: border-box;
+}
+
+.shorts-cards {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 calc((100% - 15px * 6) / 7);
+}
+
+.shorts-cards-thumbnails {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+}
+
+.shorts-cards-thumbnails-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.shorts-cards-thumbnails-under {
+  position: relative;
+  display: flex;
+}
+
+.shorts-cards-text {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.shorts-cards-text-title {
+  /* tailwind 경고 차단을 위한 표준 속성을 웹킷과 함께 사용 */
+  display: -webkit-box;
+  display: box; /* 표준 속성 */
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* 표준 속성 */
+  -webkit-box-orient: vertical;
+  box-orient: vertical; /* 표준 속성 */
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  overflow: hidden;
+}
+
+.shorts-cards-text-viewed {
+  font-size: 13px;
+}
+
+.shorts-cards-three-dots {
+  position: absolute;
+  top: 8px;
+  left: calc(80% + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.shorts-cards-three-dots:hover {
+  background-color: rgb(174, 174, 174);
+}
+
+.shorts-cards-three-dots-icon {
+  width: var(--shorts-three-dots-size);
+  height: var(--shorts-three-dots-size);
+}
+
+/* 6개 */
+@media (max-width: 1730px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 5) / 6);
+  }
+  .shorts-cards:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+/* 5개 */
+@media (max-width: 1440px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 4) / 5);
+  }
+  .shorts-cards:nth-child(n + 6) {
+    display: none;
+  }
+}
+
+/* 4개 */
+@media (max-width: 1215px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 3) / 4);
+  }
+  .shorts-cards:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+/* 3개 */
+@media (max-width: 999px) {
+  .shorts-cards {
+    flex: 0 0 calc((100% - 15px * 2) / 3);
+  }
+  .shorts-cards:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+/* 2개 */
+@media (max-width: 649px) {
+  .shorts-cards {
+    /* 사이드 바 너비에 따라 크기가 변동 될 것 같아 디버깅 확인용으로 min-width 설정을 추가하였음. */
+    flex: 0 0 max(var(--shorts-cards-min-width), calc((100% - 15px) / 2));
+  }
+  .shorts-cards:nth-child(n + 3) {
+    display: none;
+  }
+}

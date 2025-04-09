@@ -1,40 +1,40 @@
-main{
-    /*width: 92%;*/
-    width: 1fr;
+main {
+  /*width: 92%;*/
+  width: 1fr;
 
-    padding-top: 55px;
-    padding-left: 72px;
+  padding-top: 55px;
+  padding-left: 72px;
 }
 
-.video-row{
-    display: flex;
-    justify-content: space-between;
-    /* gap: 16px; */
-    margin: 10px;
-    overflow: hidden;
+.video-row {
+  display: flex;
+  justify-content: space-between;
+  /* gap: 16px; */
+  margin: 10px;
+  overflow: hidden;
 }
-video-card{
-    /* flex: 1 1 calc(33.33%-10px); */
-    display:flex;
-    flex-direction: column;
-    border: 1px solid red;
+video-card {
+  /* flex: 1 1 calc(33.33%-10px); */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
 }
 
 /* 1행에 card 3개만 보임 */
 @media (max-width: 1570px) {
-    video-card:nth-child(n+4){
-        display:none;
-    }
+  video-card:nth-child(n + 4) {
+    display: none;
+  }
 }
 /* 1행에 card 2개만 보임 */
 @media (max-width: 1023px) {
-    video-card:nth-child(n+3){
-        display:none;
-    }
+  video-card:nth-child(n + 3) {
+    display: none;
+  }
 }
 /* 1행에 card 1개만 보임 */
 @media (max-width: 768) {
-    video-card:nth-child(n+2){
-        display:none;
-    }
+  video-card:nth-child(n + 2) {
+    display: none;
+  }
 }

@@ -139,7 +139,11 @@ class VideoGrid {
       // src: this.videos.videoThumbnail
       src: item.videoThumbnail
     });
-
+    //  썸네일 위 영상 시간 표기
+    this.videoTime = createElement('div', this.videoCard, {
+      className: 'video-time',
+      innerText: `${Math.floor(Math.random() * 60)}:${Math.floor(Math.random() * 100)}`
+    });
     // 비디오 정보 불러오기
     this.setVideoInfo(item);
   }

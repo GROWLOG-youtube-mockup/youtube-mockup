@@ -10,11 +10,25 @@
 .video-card {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .video-thumbnail {
   width: 100%;
   object-fit: contain;
   border-radius: 8px;
+}
+.video-time {
+  z-index: 100;
+  background-color: black;
+  opacity: 0.6;
+  color: white;
+  font-size: 12px;
+  border-radius: 8px;
+  padding: 5px 10px;
+
+  position: absolute;
+  bottom: 100px;
+  right: 20px;
 }
 .video-info {
   display: grid;
@@ -34,6 +48,14 @@
   font-size: 14px;
   line-height: 20px;
   padding-bottom: 5px;
+ /* 2줄 이상일 때 말줄임표 */
+  overflow: hidden; 
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .channelId,
 .videoState {

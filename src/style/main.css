@@ -39,6 +39,7 @@ header {
 
 .main-layout {
   height: 100vh;
+  padding-top: 56px;
 }
 
 .sidebar {
@@ -66,7 +67,7 @@ header {
 }
 
 .video-grid {
-  z-index: -1;
+  z-index: 1;
   height: 100%;
   position: relative;
   top: 56px;

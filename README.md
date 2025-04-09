@@ -15,6 +15,8 @@ youtube-mockup
 |    |      |-- main.css
 |    |      |-- output.css        #tailwind
 |    |      |-- reset.css
+|    |      |-- outputt.css        #tailwind
+|    |      |-- Header.css
 |    |      |-- Sidebar.css
 |    |      |-- VideoGrid.css
 |-- assets/

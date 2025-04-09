@@ -39,7 +39,6 @@ header {
 }
 
 .main-layout {
-  background-color: gray;
   height: 100vh;
   margin-top: 56px;
 }
@@ -70,6 +69,10 @@ header {
 }
 
 .video-grid {
+  z-index: -1;
+  height: 100%;
+  position: relative;
+  top: 56px;
   background-color: blueviolet;
   height: 1000px;
 }

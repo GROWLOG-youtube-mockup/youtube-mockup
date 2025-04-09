@@ -38,8 +38,12 @@ header {
 }
 
 .main-layout {
+/* <<<<<<< HEAD
   height: 100vh;
   padding-top: 56px;
+======= */
+  /* height: 100vh; */
+  margin-top: 56px;
 }
 
 .sidebar {

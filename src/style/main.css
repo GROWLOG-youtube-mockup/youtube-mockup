@@ -73,4 +73,13 @@ header {
   height: 100%;
   position: relative;
   top: 56px;
+  background-color: blueviolet;
+  height: 1000px;
+}
+
+.shorts-container {
+  background-color: lightcoral;
+  display: flex;
+  flex-direction: column;
+  padding-top: 300px; /* 카테고리 바 높이만큼 패딩을 넣어서 작업하는 과정을 볼 수 있도록 함. */
 }

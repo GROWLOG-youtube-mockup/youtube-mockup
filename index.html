@@ -11,8 +11,10 @@
       rel="stylesheet"
     />
     <link href="./src/style/reset.css" rel="stylesheet" />
+    <link href="./src/style/shorts.css" rel="stylesheet" />
     <link href="./src/style/main.css" rel="stylesheet" />
     <link href="./src/style/VideoGrid.css" rel="stylesheet" />
+    <link href="./src/style/Sidebar.css" rel="stylesheet" />
     <link href="./src/style/category.css" rel="stylesheet" />
     <title>youtube</title>
   </head>
@@ -29,11 +31,13 @@
         <!-- chips contents (카테고리 선택 영역) -->
         <div id="chip-categories" aria-label="Video categories"></div>
 
-        <!-- video grid (영상 썸네일 / 무한 스크롤) -->
-        <div class="video-grid" aria-label="Video feed"></div>
+        <div class="video-grid" aria-label="Video feed">
+          <div class="shorts-container" aria-label="Shorts Container"></div>
+        </div>
       </main>
     </div>
 
     <script type="module" src="./src/index.js"></script>
+    <script type="module" src="./src/components/Shorts.js"></script>
   </body>
 </html>

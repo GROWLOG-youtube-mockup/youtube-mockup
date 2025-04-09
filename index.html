@@ -13,6 +13,7 @@
     <link href="./src/style/reset.css" rel="stylesheet" />
     <link href="./src/style/shorts.css" rel="stylesheet" />
     <link href="./src/style/main.css" rel="stylesheet" />
+    <link href="./src/style/Header.css" rel="stylesheet" />
     <link href="./src/style/VideoGrid.css" rel="stylesheet" />
     <link href="./src/style/Sidebar.css" rel="stylesheet" />
     <link href="./src/style/category.css" rel="stylesheet" />
@@ -22,6 +23,7 @@
     <!-- 상단 헤더 -->
     <header class="header"></header>
 
+    <!-- 전체 레이아웃 -->
     <div class="main-layout">
       <!-- 좌측 내비게이션 사이드바 -->
       <aside class="sidebar" aria-label="Main menu"></aside>
@@ -31,12 +33,57 @@
         <!-- chips contents (카테고리 선택 영역) -->
         <div id="chip-categories" aria-label="Video categories"></div>
 
+        <!-- video grid section -->
         <div class="video-grid" aria-label="Video feed">
+          <div class="video-row">
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-1.jpeg" alt="Video 1" />
+              <div class="video-info">Video info 1</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-2.jpeg" alt="Video 2" />
+              <div class="video-info">Video info 2</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-3.jpeg" alt="Video 3" />
+              <div class="video-info">Video info 3</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-4.jpeg" alt="Video 4" />
+              <div class="video-info">Video info 4</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-5.jpeg" alt="Video 5" />
+              <div class="video-info">Video info 5</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-6.jpeg" alt="Video 6" />
+              <div class="video-info">Video info 6</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-7.jpeg" alt="Video 7" />
+              <div class="video-info">Video info 7</div>
+            </div>
+
+            <div class="video-card">
+              <img class="video-thumbnail" src="assets/images/thumbnails/thumbnail-8.jpeg" alt="Video 8" />
+              <div class="video-info">Video info 8</div>
+            </div>
+          </div>
+
+          <!-- Shorts section -->
           <div class="shorts-container" aria-label="Shorts Container"></div>
         </div>
       </main>
     </div>
 
+    <!-- 스크립트 -->
     <script type="module" src="./src/index.js"></script>
     <script type="module" src="./src/components/Shorts.js"></script>
   </body>

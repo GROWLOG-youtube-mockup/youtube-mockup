@@ -1,23 +1,23 @@
 import { createElement } from '../utils/util.js';
 
 class Category {
-  constructor() {
+  constructor(onCategoryChange) {
     this.categoryDiv = document.getElementById('chip-categories');
     this.categories = [
       '전체',
       '게임',
       '음악',
-      '영화',
-      '애니메이션',
+      '영화/애니메이션',
+      '동물',
       '스포츠',
       '뉴스',
       '교양',
-      '브이로그',
-      '쇼츠'
+      '브이로그'
     ];
     this.selectedCategory = null;
     this.chipScroll = null;
     this.arrow = { right: null, left: null };
+    this.onCategoryChange = onCategoryChange; // 카테고리 변경 콜백 추가
 
     this.init();
     this.addDragging();
@@ -61,7 +61,14 @@ class Category {
         if (currentActive !== chip) {
           currentActive?.classList.remove('chip_active');
           chip.classList.add('chip_active');
+
+          //selectedCategory에 저장
           this.selectedCategory = category;
+
+          // 선택된 카테고리를 콜백함수로 외부에에 전달
+          if (this.onCategoryChange) {
+            this.onCategoryChange(this.selectedCategory);
+          }
         }
       });
     });

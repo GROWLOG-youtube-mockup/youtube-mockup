@@ -4,14 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet">
+      rel="stylesheet"
+    />
     <link href="./src/style/reset.css" rel="stylesheet" />
+    <link href="./src/style/shorts.css" rel="stylesheet" />
     <link href="./src/style/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="./src/style/Header.css">
+    <link href="./src/style/VideoGrid.css" rel="stylesheet" />
+    <link href="./src/style/Sidebar.css" rel="stylesheet" />
+    <link href="./src/style/category.css" rel="stylesheet" />
     <title>youtube</title>
   </head>
   <body>
@@ -27,12 +32,12 @@
         <!-- chips contents (카테고리 선택 영역) -->
         <div id="chip-categories" aria-label="Video categories"></div>
 
-        <!-- video grid (영상 썸네일 / 무한 스크롤) -->
         <div class="video-grid" aria-label="Video feed"></div>
+        <div class="shorts-container" aria-label="Shorts Container"></div>
       </main>
     </div>
 
     <script type="module" src="./src/index.js"></script>
+    <script type="module" src="./src/components/Shorts.js"></script>
   </body>
-
 </html>

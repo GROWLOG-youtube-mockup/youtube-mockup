@@ -19,11 +19,13 @@ html {
 
 body {
   font-size: 1.6rem;
-  font-family:  "Roboto", Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 :lang(ko) {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     word-break: keep-all;
   }
 }
@@ -37,7 +39,6 @@ header {
 }
 
 .main-layout {
-  background-color: gray;
   height: 100vh;
   margin-top: 56px;
 }
@@ -68,6 +69,17 @@ header {
 }
 
 .video-grid {
+  z-index: -1;
+  height: 100%;
+  position: relative;
+  top: 56px;
   background-color: blueviolet;
   height: 1000px;
+}
+
+.shorts-container {
+  background-color: lightcoral;
+  display: flex;
+  flex-direction: column;
+  padding-top: 300px; /* 카테고리 바 높이만큼 패딩을 넣어서 작업하는 과정을 볼 수 있도록 함. */
 }

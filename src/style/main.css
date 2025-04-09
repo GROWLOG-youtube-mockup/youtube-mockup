@@ -38,7 +38,8 @@ header {
 }
 
 .main-layout {
-  height: 100vh;
+  /* height: 100vh; */
+  margin-top: 56px;
 }
 
 .sidebar {

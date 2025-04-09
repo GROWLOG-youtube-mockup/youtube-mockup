@@ -172,7 +172,7 @@ class VideoGrid {
 
   updateVideos(newVideos) {
     if (!newVideos || !newVideos.length) {
-      console.error("No videos to update");
+      console.error('No videos to update');
       return;
     }
 

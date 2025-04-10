@@ -1,4 +1,5 @@
 import { createElement } from '../utils/util.js';
+import VideoThumbnail from './VideoThumbnail.js';
 import Shorts from './Shorts.js';
 
 class VideoGrid {
@@ -134,7 +135,7 @@ class VideoGrid {
     // this.calHeight();
   }
 
-  createVideoCard(item) {
+/*   createVideoCard(item) {
     this.videoCard = createElement('div', this.videoGrid, { className: 'video-card' });
 
     // 썸네일 정보 불러오기 // setVideoThumbnail();
@@ -149,8 +150,13 @@ class VideoGrid {
     });
     // 비디오 정보 불러오기
     this.setVideoInfo(item);
-  }
-
+  } */
+ 
+    createVideoCard(item) {
+      const thumbnail = new VideoThumbnail(item);
+      this.videoGrid.appendChild(thumbnail.getElement());
+    }
+  
   setVideoInfo(item) {
     this.videoInfo = createElement('div', this.videoCard, { className: 'video-info' });
     this.avatar = createElement('img', this.videoInfo, {

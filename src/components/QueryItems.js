@@ -31,7 +31,8 @@ class QueryItems {
 
   // 인기 비디오 로드 
   async fetchPopularVideos() {
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
+    //const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -194,6 +195,8 @@ class QueryItems {
       const title = video.snippet.title;
       const channelId = video.snippet.channelTitle;
       const channel = video.snippet.channelId;
+      const rawDuration = video.contentDetails?.duration || "PT0M0S";
+      const formattedDuration = formatDuration(rawDuration);
 
       const viewCount = video.statistics?.viewCount
         ? this.formatViewCount(video.statistics.viewCount)
@@ -218,6 +221,7 @@ class QueryItems {
             channelId,
             channel,
             videoState: `조회수 ${viewCount} ${publishedAt}`,
+            duration: formattedDuration,
           };
 
           console.log('Generated Video Card Data:', videoCardData);
@@ -296,6 +300,16 @@ class QueryItems {
   }
 
 
+}
+function formatDuration(isoDuration) {
+  const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const [, h, m, s] = match.map(v => (v ? parseInt(v) : 0));
+
+  if (h) {
+    return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  } else {
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
 }
 
 export default QueryItems;

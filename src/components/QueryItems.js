@@ -1,5 +1,6 @@
 import VideoGrid from './VideoGrid.js'; // VideoGrid 클래스 import
 import { API_KEY } from './const.js';
+import { formatDuration } from '../utils/util.js';
 
 class QueryItems {
   initializeApp() {
@@ -19,22 +20,33 @@ class QueryItems {
     console.log("YouTube API loaded");
   }
 
-  // 사이드바 이벤트 설정 (임시 메서드)
-  setupSidebarEvents() {
-    console.log("Sidebar events setup");
+  // 검색 기능
+  async searchVideos(query) {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=16&q=${query}&type=video&key=${API_KEY}`;
+    const data = await this.fetchFromAPI(url);
+  
+    if (!data || !data.items) {
+      this.displayDummyVideos();
+      return;
   }
-
-  // 검색 기능 구현 (임시 메서드)
-  setupSearchFunctionality() {
-    console.log("Search functionality setup");
+    // 검색 결과는 다른 형식이므로 변환
+    const items = data.items.map((item) => ({
+      id: item.id.videoId,
+      snippet: item.snippet,
+      statistics: { viewCount: "N/A" }, // 검색 API는 통계를 제공하지 않음
+    }));
+  
+    this.displayVideos(items);
   }
 
   // 인기 비디오 로드 
   async fetchPopularVideos() {
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
+    console.log("Popular videos fetched:", data);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
+
   }
 
   // 카테고리별 비디오 로드
@@ -69,7 +81,7 @@ class QueryItems {
       case "뉴스":
         this.fetchNewsVideos();
         break;
-      case "교양":
+      case "기술":
         this.fetchCultureVideos();
         break;
       case "브이로그":
@@ -85,7 +97,7 @@ class QueryItems {
   // 추가적인 카테고리별 비디오 로드 메서드
   async fetchGamingVideos() {
     console.log("Fetching gaming videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=20&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=20&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -93,7 +105,7 @@ class QueryItems {
 
   async fetchMusicVideos() {
     console.log("Fetching music videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=10&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=10&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -101,7 +113,7 @@ class QueryItems {
 
   async fetchMovieVideos() {
     console.log("Fetching movie videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoDuration=long&videoCategoryId=1&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=1&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -109,7 +121,7 @@ class QueryItems {
 
   async fetchAnimalVideos() {
     console.log("Fetching anime videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoDuration=long&videoCategoryId=15&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=15&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -117,7 +129,7 @@ class QueryItems {
 
   async fetchSportsVideos() {
     console.log("Fetching sports videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&videoDuration=long&maxResults=16&videoCategoryId=17&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=17&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -125,7 +137,7 @@ class QueryItems {
 
   async fetchNewsVideos() {
     console.log("Fetching news videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=25&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=25&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
@@ -133,32 +145,97 @@ class QueryItems {
 
   async fetchCultureVideos() {
     console.log("Fetching culture videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=27&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=28&key=${API_KEY}`;
     const data = await this.fetchFromAPI(url);
 
     this.displayVideos(data.items); // 클래스 메서드로 호출
   }
 
-  async fetchVlogideos() {
-    console.log("Fetching vlog videos");
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=22&key=${API_KEY}`;
-    const data = await this.fetchFromAPI(url);
+async fetchVlogideos() {
+  console.log("Fetching vlog videos");
+  const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=22&key=${API_KEY}`;
+  const data = await this.fetchFromAPI(url);
 
-    this.displayVideos(data.items); // 클래스 메서드로 호출
-  }
+  // 변경 전과 동일하게 data.items를 사용
+  this.displayVideos(data.items); // 클래스 메서드로 호출
+}
 
-  async fetchFromAPI(url) {
+
+  fetchFromAPI = async (url, isShort = false) => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+      let videos = [];
+      let nextPageToken = null;
+      const targetCount = isShort ? 5 : 16; // 쇼츠:5개, 롱폼:16개
+    
+      // 목표 개수에 도달할 때까지 반복
+      while (videos.length < targetCount) {
+        const paginatedUrl = nextPageToken ? `${url}&pageToken=${nextPageToken}` : url;
+        console.log("Fetching URL:", paginatedUrl);
+    
+        const response = await fetch(paginatedUrl);
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+    
+        const data = await response.json();
+        console.log("Fetched Data:", data);
+    
+        nextPageToken = data.nextPageToken;
+    
+        // 각 페이지의 모든 비디오에 대해 병렬로 isShortVideo 체크
+        const videoChecks = data.items.map(async (video) => {
+          const videoId = video.id?.videoId || video.id;
+          const isVideoShort = await this.isShortVideo(videoId);
+          return { video, isVideoShort, videoId };
+        });
+    
+        // 병렬로 처리된 결과 받아오기
+        const results = await Promise.all(videoChecks);
+    
+        // 결과에 따라 필터링하여 추가 (이미 필요한 개수를 초과하면 slice)
+        const filteredVideos = results.filter(({ isVideoShort }) =>
+          isShort ? isVideoShort : !isVideoShort
+        ).map(({ video, videoId }) => {
+          console.log(`${isShort ? "쇼츠 추가" : "롱폼 추가"}: ${videoId} | 현재 개수: ${videos.length + 1}`);
+          return video;
+        });
+    
+        videos = videos.concat(filteredVideos);
+    
+        // 목표 개수를 달성하면 break
+        if (videos.length >= targetCount) {
+          videos = videos.slice(0, targetCount);
+          break;
+        }
+    
+        // 다음 페이지가 없으면 종료
+        if (!nextPageToken) break;
       }
-      return await response.json();
+    
+      return { items: videos };
     } catch (error) {
       console.error("API request error:", error);
       return null;
     }
-  }
+  };
+  
+
+  isShortVideo = (videoId) => {
+    const expectedThumbnailUrl = `https://i.ytimg.com/vi/${videoId}/oar2.jpg`;
+
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const isVerticalThumbnail = img.naturalHeight > img.naturalWidth;
+        resolve(isVerticalThumbnail);
+      };
+      img.onerror = () => {
+        resolve(false);
+      };
+      img.src = expectedThumbnailUrl;
+    });
+  };
+
 
   async displayVideos(videos) {
     if (!videos || !videos.length) {
@@ -194,13 +271,15 @@ class QueryItems {
       const title = video.snippet.title;
       const channelId = video.snippet.channelTitle;
       const channel = video.snippet.channelId;
+      const rawDuration = video.contentDetails?.duration || "PT0M0S";
+      const formattedDuration = formatDuration(rawDuration);
 
       const viewCount = video.statistics?.viewCount
         ? this.formatViewCount(video.statistics.viewCount)
         : "N/A";
       const publishedAt = this.formatPublishedDate(video.snippet.publishedAt);
 
-      const videoThumbnail = `https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`;
+      const videoThumbnail = `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
       const avatarlink = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channel}&key=${API_KEY}`;
 
       // Fetch avatar image
@@ -217,6 +296,7 @@ class QueryItems {
             title,
             channelId,
             channel,
+            duration: formattedDuration,
             videoState: `조회수 ${viewCount} ${publishedAt}`,
           };
 

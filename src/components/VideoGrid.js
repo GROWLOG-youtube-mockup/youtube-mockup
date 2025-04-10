@@ -131,7 +131,7 @@ class VideoGrid {
     this.shortsRow = createElement('div', this.videoGrid, { className: 'shorts-container' });
     this.shortsRow.innerHTML = Shorts();
 
-    this.calHeight();
+    // this.calHeight();
   }
 
   createVideoCard(item) {
@@ -192,11 +192,11 @@ class VideoGrid {
   }
 
   // videoCard, shorts UI 높이 계산하기
-  calHeight(){
+  calHeight() {
     const shortsContainer = document.querySelector('.shorts-container');
     const shortsHeader = document.querySelector('.shorts-header');
     const shortsCard = document.querySelector('.shorts-cards-container');
-    
+
     if (shortsContainer && shortsHeader && shortsCard) {
       const cardHeight = shortsCard.clientHeight + shortsHeader.clientHeight;
       shortsContainer.style.height = `${cardHeight * 1.1}px`;

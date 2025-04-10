@@ -1,7 +1,8 @@
 .video-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(1fr, auto);
+  grid-auto-rows: 1fr;
+  grid-template-rows: auto auto 1.7fr auto;
   row-gap: 20px;
   column-gap: 12px;
   grid-auto-flow: row dense;
@@ -46,16 +47,17 @@
 .title {
   font-weight: 600;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 2.2rem;
   padding-bottom: 5px;
- /* 2줄 이상일 때 말줄임표 */
-  overflow: hidden; 
+  /* 2줄 이상일 때 말줄임표 */
+  overflow: hidden;
   word-break: break-all;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
+  max-height: 4.4rem;
 }
 .channelId,
 .videoState {
@@ -105,7 +107,7 @@
   z-index: 2;
   width: 100%;
   height: 100%;
-  grid-row: 3 / span 3;
+  grid-row: 3 / span 1;
   grid-column: 1 / -1;
   display: block;
   position: relative;
@@ -160,7 +162,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  width: 100%;
+  height: 90%;
   overflow: hidden;
   gap: 15px;
   padding: 7px 16px;
@@ -281,7 +283,7 @@
 }
 
 /* 2개 */
-@media (max-width: 649px) {
+@media (max-width: 768px) {
   .shorts-cards {
     /* 사이드 바 너비에 따라 크기가 변동 될 것 같아 디버깅 확인용으로 min-width 설정을 추가하였음. */
     flex: 0 0 max(var(--shorts-cards-min-width), calc((100% - 15px) / 2));

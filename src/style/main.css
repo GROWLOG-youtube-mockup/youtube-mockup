@@ -38,10 +38,6 @@ header {
 }
 
 .main-layout {
-/* <<<<<<< HEAD
-  height: 100vh;
-  padding-top: 56px;
-======= */
   /* height: 100vh; */
   margin-top: 56px;
 }
@@ -75,11 +71,4 @@ header {
   height: 100%;
   position: relative;
   top: 56px;
-  height: 1000px;
-}
-
-.shorts-container {
-  display: flex;
-  flex-direction: column;
-  padding-top: 300px; /* 카테고리 바 높이만큼 패딩을 넣어서 작업하는 과정을 볼 수 있도록 함. */
 }

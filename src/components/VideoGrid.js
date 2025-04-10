@@ -1,4 +1,5 @@
 import { createElement } from '../utils/util.js';
+import VideoThumbnail from './VideoThumbnail.js';
 
 class VideoGrid {
   constructor() {
@@ -130,18 +131,23 @@ class VideoGrid {
     this.shortsRow = createElement('div', this.vidioGrid, { className: 'shorts-row' });
   }
 
+  // createVideoCard(item) {
+  //   this.videoCard = createElement('div', this.vidioGrid, { className: 'video-card' });
+
+  //   // 썸네일 정보 불러오기 // setVideoThumbnail();
+  //   this.videoThumbnail = createElement('img', this.videoCard, {
+  //     className: 'video-thumbnail',
+  //     // src: this.videos.videoThumbnail
+  //     src: item.videoThumbnail
+  //   });
+
+  //   // 비디오 정보 불러오기
+  //   this.setVideoInfo(item);
+  // }
+
   createVideoCard(item) {
-    this.videoCard = createElement('div', this.vidioGrid, { className: 'video-card' });
-
-    // 썸네일 정보 불러오기 // setVideoThumbnail();
-    this.videoThumbnail = createElement('img', this.videoCard, {
-      className: 'video-thumbnail',
-      // src: this.videos.videoThumbnail
-      src: item.videoThumbnail
-    });
-
-    // 비디오 정보 불러오기
-    this.setVideoInfo(item);
+    const thumbnail = new VideoThumbnail(item);
+    this.vidioGrid.appendChild(thumbnail.getElement());
   }
 
   setVideoInfo(item) {

@@ -11,7 +11,7 @@ class Category {
       '동물',
       '스포츠',
       '뉴스',
-      '교양',
+      '기술',
       '브이로그'
     ];
     this.selectedCategory = null;

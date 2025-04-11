@@ -1,4 +1,5 @@
 import { createElement } from '../utils/util.js';
+import VideoThumbnail from './VideoThumbnail.js';
 import Shorts from './Shorts.js';
 
 class VideoGrid {
@@ -134,6 +135,7 @@ class VideoGrid {
     // this.calHeight();
   }
 
+
   createVideoCard(item) {
     this.videoCard = createElement('div', this.videoGrid, { className: 'video-card' });
 
@@ -147,6 +149,10 @@ class VideoGrid {
       className: 'video-time',
       innerText: `${Math.floor(Math.random() * 60)}:${Math.floor(Math.random() * 100)}`
     });
+  
+    const thumbnail = new VideoThumbnail(item);
+    this.vidioGrid.appendChild(thumbnail.getElement());  
+  
     // 비디오 정보 불러오기
     this.setVideoInfo(item);
   }

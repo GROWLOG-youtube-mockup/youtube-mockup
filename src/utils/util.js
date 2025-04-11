@@ -18,3 +18,14 @@ export const createElement = (type, parent = null, option = null) => {
 
   return element;
 };
+
+export function formatDuration(isoDuration) {
+  const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  const [, h, m, s] = match.map(v => (v ? parseInt(v) : 0));
+
+  if (h) {
+    return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  } else {
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+}

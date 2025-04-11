@@ -136,25 +136,9 @@ class VideoGrid {
   }
 
 
-  createVideoCard(item) {
-    this.videoCard = createElement('div', this.videoGrid, { className: 'video-card' });
-
-    // 썸네일 정보 불러오기 // setVideoThumbnail();
-    this.videoThumbnail = createElement('img', this.videoCard, {
-      className: 'video-thumbnail',
-      src: item.videoThumbnail
-    });
-    //  썸네일 위 영상 시간 표기
-    this.videoTime = createElement('div', this.videoCard, {
-      className: 'video-time',
-      innerText: `${Math.floor(Math.random() * 60)}:${Math.floor(Math.random() * 100)}`
-    });
-  
+  createVideoCard(item) {  
     const thumbnail = new VideoThumbnail(item);
-    this.vidioGrid.appendChild(thumbnail.getElement());  
-  
-    // 비디오 정보 불러오기
-    this.setVideoInfo(item);
+    this.videoGrid.appendChild(thumbnail.getElement());  
   }
 
   setVideoInfo(item) {

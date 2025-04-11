@@ -1,9 +1,10 @@
 import { createElement } from '../utils/util.js';
 import VideoThumbnail from './VideoThumbnail.js';
+import Shorts from './Shorts.js';
 
 class VideoGrid {
   constructor() {
-    this.vidioGrid = document.querySelector('.video-grid');
+    this.videoGrid = document.querySelector('.video-grid');
     this.videos = [
       {
         videoThumbnail: '../../assets/images/thumbnails/thumbnail-1.jpeg',
@@ -128,33 +129,38 @@ class VideoGrid {
     });
 
     // 쇼츠 열(Row) 생성하기
-    this.shortsRow = createElement('div', this.vidioGrid, { className: 'shorts-row' });
+    this.shortsRow = createElement('div', this.videoGrid, { className: 'shorts-container' });
+    this.shortsRow.innerHTML = Shorts();
+
+    // this.calHeight();
   }
 
-  // createVideoCard(item) {
-  //   this.videoCard = createElement('div', this.vidioGrid, { className: 'video-card' });
-
-  //   // 썸네일 정보 불러오기 // setVideoThumbnail();
-  //   this.videoThumbnail = createElement('img', this.videoCard, {
-  //     className: 'video-thumbnail',
-  //     // src: this.videos.videoThumbnail
-  //     src: item.videoThumbnail
-  //   });
-
-  //   // 비디오 정보 불러오기
-  //   this.setVideoInfo(item);
-  // }
 
   createVideoCard(item) {
+    this.videoCard = createElement('div', this.videoGrid, { className: 'video-card' });
+
+    // 썸네일 정보 불러오기 // setVideoThumbnail();
+    this.videoThumbnail = createElement('img', this.videoCard, {
+      className: 'video-thumbnail',
+      src: item.videoThumbnail
+    });
+    //  썸네일 위 영상 시간 표기
+    this.videoTime = createElement('div', this.videoCard, {
+      className: 'video-time',
+      innerText: `${Math.floor(Math.random() * 60)}:${Math.floor(Math.random() * 100)}`
+    });
+  
     const thumbnail = new VideoThumbnail(item);
-    this.vidioGrid.appendChild(thumbnail.getElement());
+    this.vidioGrid.appendChild(thumbnail.getElement());  
+  
+    // 비디오 정보 불러오기
+    this.setVideoInfo(item);
   }
 
   setVideoInfo(item) {
     this.videoInfo = createElement('div', this.videoCard, { className: 'video-info' });
     this.avatar = createElement('img', this.videoInfo, {
       className: 'avatar',
-      // src: this.videos.avatar
       src: item.avatar
     });
     this.details = createElement('div', this.videoInfo, { className: 'details' });
@@ -185,10 +191,22 @@ class VideoGrid {
     this.videos = newVideos; // 새로운 비디오 데이터로 업데이트
 
     // 기존 콘텐츠 비우기
-    this.vidioGrid.innerHTML = '';
+    this.videoGrid.innerHTML = '';
 
     // 다시 초기화하여 새로운 비디오 렌더링
     this.init();
+  }
+
+  // videoCard, shorts UI 높이 계산하기
+  calHeight() {
+    const shortsContainer = document.querySelector('.shorts-container');
+    const shortsHeader = document.querySelector('.shorts-header');
+    const shortsCard = document.querySelector('.shorts-cards-container');
+
+    if (shortsContainer && shortsHeader && shortsCard) {
+      const cardHeight = shortsCard.clientHeight + shortsHeader.clientHeight;
+      shortsContainer.style.height = `${cardHeight * 1.1}px`;
+    }
   }
 }
 export default VideoGrid;

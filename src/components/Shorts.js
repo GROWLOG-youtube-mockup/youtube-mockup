@@ -1,4 +1,5 @@
-document.querySelector('.shorts-container').innerHTML = `
+export default function Shorts() {
+  return `
   <div class="shorts-header" aria-label="Shorts Header">
               <div class="shorts-header-container" aria-label="Shorts Logo and Title">
                 <div class="shorts-container-icon-box">
@@ -169,3 +170,4 @@ document.querySelector('.shorts-container').innerHTML = `
               </div>
             </div>
 `;
+}

@@ -19,7 +19,6 @@
 
   .content {
     margin-left: 0; 
-    width: 100%;
   }
 }
   
@@ -47,7 +46,7 @@
     width: 20px; 
     height: 20px; 
     margin-right: 16px; 
-    color:#333;
+    mix-blend-mode: difference;
   }
   
   .sidebar__link {
@@ -72,7 +71,7 @@
     }
 
     .sidebar__icon {
-      color: #fff;
+      mix-blend-mode: difference;
     }
 
     .sidebar__link {

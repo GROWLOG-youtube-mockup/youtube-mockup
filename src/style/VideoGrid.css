@@ -8,6 +8,11 @@
   grid-auto-flow: row dense;
   padding: 0 24px;
 }
+
+.video-grid.no-shorts {
+  grid-template-rows: auto auto auto; /* 숏츠가 없을 때의 레이아웃 */
+}
+
 .video-card {
   display: flex;
   flex-direction: column;
@@ -160,7 +165,7 @@
 
 .shorts-cards-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: nowrap;
   height: 90%;
   overflow: hidden;
@@ -291,4 +296,11 @@
   .shorts-cards:nth-child(n + 3) {
     display: none;
   }
+}
+
+.dummy-video {
+  visibility: hidden; /* 요소를 보이지 않게 함 */
+  pointer-events: none; /* 클릭 등 이벤트 차단 */
+
+  border: none; /* 테두리 제거 */
 }

@@ -1,6 +1,6 @@
 import { createElement } from '../utils/util.js';
-import VideoThumbnail from './VideoThumbnail.js';
 import Shorts from './Shorts.js';
+import VideoThumbnail from './VideoThumbnail.js';
 
 class VideoGrid {
   constructor() {
@@ -119,44 +119,47 @@ class VideoGrid {
         videoState: '조회수 14만회  6일 전'
       }
     ];
+
+    this.cards = [];
     this.init();
   }
 
   init() {
-    // 비디오 카드 생성하기
+    console.log('Initializing VideoGrid...');
+
+    // 비디오 카드 개수를 16개로 맞추기 위해 더미 데이터 추가
+    while (this.videos.length < 16) {
+      this.videos.push({
+        videoThumbnail: '../../assets/images/thumbnails/default-thumbnail.jpg',
+        avatar: '../../assets/images/avatars/default-avatar.png',
+        title: '',
+        channelId: '',
+        videoState: '',
+        isDummy: true // 더미 데이터 표시
+      });
+    }
+
+    // 일반 비디오 렌더링
     this.videos.forEach((item) => {
       this.createVideoCard(item);
     });
 
-    // 쇼츠 열(Row) 생성하기
-    this.shortsRow = createElement('div', this.videoGrid, { className: 'shorts-container' });
-    this.shortsRow.innerHTML = Shorts();
-
-    // this.calHeight();
+    // Shorts 데이터 렌더링
+    const shortsRow = createElement('div', this.videoGrid, { className: 'shorts-container' });
+    if (this.cards.length > 0) {
+      shortsRow.innerHTML = Shorts({ headerTitle: 'Shorts', cards: this.cards });
+      console.log('Shorts rendered:', this.cards);
+    }
   }
 
-/*   createVideoCard(item) {
-    this.videoCard = createElement('div', this.videoGrid, { className: 'video-card' });
-
-    // 썸네일 정보 불러오기 // setVideoThumbnail();
-    this.videoThumbnail = createElement('img', this.videoCard, {
-      className: 'video-thumbnail',
-      src: item.videoThumbnail
-    });
-    //  썸네일 위 영상 시간 표기
-    this.videoTime = createElement('div', this.videoCard, {
-      className: 'video-time',
-      innerText: `${Math.floor(Math.random() * 60)}:${Math.floor(Math.random() * 100)}`
-    });
-    // 비디오 정보 불러오기
-    this.setVideoInfo(item);
-  } */
- 
-    createVideoCard(item) {
-      const thumbnail = new VideoThumbnail(item);
-      this.videoGrid.appendChild(thumbnail.getElement());
+  createVideoCard(item) {
+    const thumbnail = new VideoThumbnail(item);
+    if (item.isDummy) {
+      thumbnail.getElement().classList.add('dummy-video'); // 더미 클래스 추가
     }
-  
+    this.videoGrid.appendChild(thumbnail.getElement());
+  }
+
   setVideoInfo(item) {
     this.videoInfo = createElement('div', this.videoCard, { className: 'video-info' });
     this.avatar = createElement('img', this.videoInfo, {
@@ -182,18 +185,19 @@ class VideoGrid {
     });
   }
 
-  updateVideos(newVideos) {
+  updateVideos(newVideos, newShorts = []) {
     if (!newVideos || !newVideos.length) {
       console.error('No videos to update');
       return;
     }
 
     this.videos = newVideos; // 새로운 비디오 데이터로 업데이트
+    this.cards = newShorts; // 새로운 Shorts 데이터로 업데이트
 
     // 기존 콘텐츠 비우기
     this.videoGrid.innerHTML = '';
 
-    // 다시 초기화하여 새로운 비디오 렌더링
+    // 비디오 카드 및 Shorts 데이터 렌더링
     this.init();
   }
 

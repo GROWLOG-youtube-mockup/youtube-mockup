@@ -28,7 +28,7 @@ class QueryItems {
   // 검색 기능
   async searchVideos(query) {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=16&q=${query}&type=video&key=${API_KEY}`;
-    const { items } = await this.fetchFromAPI(url);
+    const { items } = await this.fetchFromAPI(url, 0); // maxShorts 값을 0으로 설정
 
     // 검색 결과 변환
     const formattedItems = items.map((item) => ({
@@ -156,33 +156,40 @@ class QueryItems {
     let items = [];
     let shorts = [];
     let nextPageToken = null;
-
+    const seenVideoIds = new Set(); // 중복 제거를 위한 Set
+  
     while (true) {
       const paginatedUrl = nextPageToken ? `${url}&pageToken=${nextPageToken}` : url;
-
+  
       const response = await fetch(paginatedUrl);
       if (!response.ok) {
         console.error(`API request failed with status ${response.status}`);
         break;
       }
-
+  
       const data = await response.json();
       nextPageToken = data.nextPageToken;
-
+  
       if (!data.items || data.items.length === 0) {
         break;
       }
-
+  
       const categorizedVideos = await Promise.all(
-        data.items.map(async (video) => {
+        data.items.reduce((acc, video) => {
           const videoId = video.id?.videoId || video.id;
-          if (!videoId) return null;
-
-          const isShort = maxShorts > 0 ? await this.isShortVideo(videoId) : false;
-          return { video, isShort };
-        })
+          if (!videoId || seenVideoIds.has(videoId)) return acc; // 조건에 맞지 않으면 건너뜀
+  
+          seenVideoIds.add(videoId); // 중복 방지용 ID 저장
+          acc.push(
+            (async () => {
+              const isShort = maxShorts > 0 ? await this.isShortVideo(videoId) : false;
+              return { video, isShort };
+            })()
+          );
+          return acc;
+        }, [])
       );
-
+  
       categorizedVideos.forEach((item) => {
         if (item?.isShort) {
           shorts.push(item.video);
@@ -190,18 +197,18 @@ class QueryItems {
           items.push(item.video);
         }
       });
-
+  
       if (items.length >= maxLongForm && (maxShorts === 0 || shorts.length >= maxShorts)) {
         console.log('Reached maximum limits for long-form and/or shorts.');
         break;
       }
-
+  
       if (!nextPageToken) {
         console.warn('No more pages available. Stopping.');
         break;
       }
     }
-
+  
     return {
       items: items.slice(0, maxLongForm),
       shorts: shorts.slice(0, maxShorts)
@@ -221,7 +228,7 @@ class QueryItems {
 
   // 숏츠 비디오 판별
   isShortVideo = (videoId) => {
-    const expectedThumbnailUrl = `https://i.ytimg.com/vi/${videoId}/oar2.jpg`;
+    const expectedThumbnailUrl = `https://i.ytimg.com/vi_webp/${videoId}/oar2.webp`;
 
     return new Promise((resolve) => {
       const img = new Image();
@@ -284,7 +291,7 @@ class QueryItems {
     // 비디오 썸네일 URL
     const publishedAt = this.formatPublishedDate(video.snippet.publishedAt);
     const videoThumbnail =
-      `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg` ||
+      `https://i.ytimg.com/vi_webp/${videoId}/mqdefault.webp` ||
       '../../assets/images/thumbnails/default-thumbnail.jpg';
     const avatarlink = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channel}&key=${API_KEY}`;
 

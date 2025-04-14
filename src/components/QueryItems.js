@@ -20,6 +20,7 @@ class QueryItems {
     const tag = document.createElement('script');
     tag.src = 'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest';
     const firstScriptTag = document.getElementsByTagName('script')[0];
+    
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     console.log('YouTube API loaded');
   }
@@ -177,21 +178,18 @@ class QueryItems {
           const videoId = video.id?.videoId || video.id;
           if (!videoId) return null;
 
-          // maxShorts가 0이면 숏츠 판별을 건너뜀
           const isShort = maxShorts > 0 ? await this.isShortVideo(videoId) : false;
           return { video, isShort };
         })
       );
 
-      // 숏츠 관련 로직 건너뛰기
-      if (maxShorts > 0) {
-        shorts = shorts.concat(
-          categorizedVideos.filter((item) => item?.isShort).map((item) => item.video)
-        );
-      }
-      items = items.concat(
-        categorizedVideos.filter((item) => !item?.isShort).map((item) => item.video)
-      );
+      categorizedVideos.forEach((item) => {
+        if (item?.isShort) {
+          shorts.push(item.video);
+        } else {
+          items.push(item.video);
+        }
+      });
 
       if (items.length >= maxLongForm && (maxShorts === 0 || shorts.length >= maxShorts)) {
         console.log('Reached maximum limits for long-form and/or shorts.');
@@ -255,8 +253,7 @@ class QueryItems {
 
     // generateCardData를 직접 호출
     const videoCardDataList = await Promise.all(videos.map((video) => this.generateCardData(video)));
-    const shortCardDataList = await Promise.all(
-      shortFormVideos.map((shortFormVideo) => this.generateCardData(shortFormVideo))
+    const shortCardDataList = await Promise.all(shortFormVideos.map((shortFormVideo) => this.generateCardData(shortFormVideo))
     );
 
     const videoGrid = new VideoGrid();

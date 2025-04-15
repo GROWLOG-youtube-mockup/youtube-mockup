@@ -1,18 +1,5 @@
 export default function Shorts({ headerTitle = 'Shorts', cards = [] } = {}) {
-  console.log('Rendering Shorts with cards:', cards);
-
-  if (!cards || cards.length === 0) {
-    console.warn('No cards provided for Shorts rendering');
-    return `
-      <div class="shorts-header">
-        <span class="shorts-title">${headerTitle}</span>
-      </div>
-      <div class="shorts-cards-container">
-      </div>
-    `;
-  }
-
-  return `
+  const renderHeader = () => `
     <div class="shorts-header" aria-label="Shorts Header">
       <div class="shorts-header-container" aria-label="Shorts Logo and Title">
         <div class="shorts-container-icon-box">
@@ -32,33 +19,50 @@ export default function Shorts({ headerTitle = 'Shorts', cards = [] } = {}) {
         />
       </div>
     </div>
-    <div class="shorts-cards-container">
-      ${cards
-        .map(
-          (card) => `
-        <div class="shorts-cards">
-          <div class="shorts-cards-thumbnails">
-            <img
-              class="shorts-cards-thumbnails-img"
-              src="${card.videoThumbnail.replace('mqdefault', 'oar2')}"
-              alt="${card.title || 'Shorts Thumbnail'}"
-            />
+  `;
+
+  const renderCard = (card) => `
+    <div class="shorts-cards">
+      <div class="shorts-cards-thumbnails">
+        <img
+          class="shorts-cards-thumbnails-img"
+          src="${card.videoThumbnail.replace('mqdefault', 'oar2')}"
+          alt="${card.title || 'Shorts Thumbnail'}"
+          loading="lazy"
+        />
+      </div>
+      <div class="shorts-cards-thumbnails-under">
+        <div class="shorts-cards-text" aria-label="Shorts Text">
+          <div class="shorts-cards-text-title">
+            ${card.title || 'Untitled'}
           </div>
-          <div class="shorts-cards-thumbnails-under">
-            <div class="shorts-cards-text" aria-label="Shorts Text">
-              <div class="shorts-cards-text-title">
-                ${card.title || 'Untitled'}
-              </div>
-              <div class="shorts-cards-text-viewed">${card.videoState || '0 views'}</div>
-            </div>
-            <div class="shorts-cards-three-dots">
-              <img class="shorts-cards-three-dots-icon" src="./assets/icons/three-dots.svg" />
-            </div>
-          </div>
+          <div class="shorts-cards-text-viewed">${card.videoState || '0 views'}</div>
         </div>
-      `
-        )
-        .join('')}
+        <button class="shorts-cards-three-dots" aria-label="More options">
+          <img 
+            class="shorts-cards-three-dots-icon" 
+            src="./assets/icons/three-dots.svg"
+            alt="More options"
+          />
+        </button>
+      </div>
+    </div>
+  `;
+
+  if (!cards?.length) {
+    console.warn('No cards provided for Shorts rendering');
+    return `
+      <div class="shorts-header">
+        <span class="shorts-title">${headerTitle}</span>
+      </div>
+      <div class="shorts-cards-container"></div>
+    `;
+  }
+
+  return `
+    ${renderHeader()}
+    <div class="shorts-cards-container">
+      ${cards.map(renderCard).join('')}
     </div>
   `;
 }

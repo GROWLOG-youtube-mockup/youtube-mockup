@@ -2,8 +2,12 @@
   --shorts-header-height: 45px;
   --shorts-cards-min-width: 160px;
   --shorts-three-dots-size: 20px;
+  --shorts-gap: 15px;
+  --shorts-border-radius: 10px;
+  --shorts-padding: 16px;
 }
 
+/* Header Styles */
 .shorts-header {
   display: flex;
   justify-content: space-between;
@@ -14,7 +18,7 @@
 
 .shorts-header-container {
   display: flex;
-  margin-left: 15px;
+  margin-left: var(--shorts-padding);
   height: 30px;
 }
 
@@ -33,8 +37,9 @@
   font-weight: 800;
 }
 
+/* Three Dots Styles */
 .shorts-three-dots {
-  margin-right: 15px;
+  margin-right: var(--shorts-padding);
   height: var(--shorts-three-dots-size);
 }
 
@@ -42,21 +47,23 @@
   height: inherit;
 }
 
+/* Cards Container */
 .shorts-cards-container {
   display: flex;
   justify-content: flex-start;
   flex-wrap: nowrap;
   width: 100%;
   overflow: hidden;
-  gap: 15px;
-  padding: 7px 16px;
+  gap: var(--shorts-gap);
+  padding: 7px var(--shorts-padding);
   box-sizing: border-box;
 }
 
+/* Card Styles */
 .shorts-cards {
   display: flex;
   flex-direction: column;
-  flex: 0 0 calc((100% - 15px * 6) / 7);
+  flex: 0 0 calc((100% - var(--shorts-gap) * 6) / 7);
 }
 
 .shorts-cards-thumbnails {
@@ -68,10 +75,11 @@
 .shorts-cards-thumbnails-img {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: var(--shorts-border-radius);
   object-fit: cover;
 }
 
+/* Card Text Styles */
 .shorts-cards-thumbnails-under {
   position: relative;
   display: flex;
@@ -84,15 +92,10 @@
 }
 
 .shorts-cards-text-title {
-  /* tailwind 경고 차단을 위한 표준 속성을 웹킷과 함께 사용 */
   display: -webkit-box;
-  display: box; /* 표준 속성 */
   -webkit-line-clamp: 2;
-  line-clamp: 2; /* 표준 속성 */
   -webkit-box-orient: vertical;
-  box-orient: vertical; /* 표준 속성 */
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin: 6px 0;
   font-size: 16px;
   font-weight: 500;
   line-height: 19px;
@@ -103,6 +106,7 @@
   font-size: 13px;
 }
 
+/* Card Three Dots Button */
 .shorts-cards-three-dots {
   position: absolute;
   top: 8px;
@@ -113,6 +117,10 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .shorts-cards-three-dots:hover {
@@ -124,51 +132,46 @@
   height: var(--shorts-three-dots-size);
 }
 
-/* 6개 */
+/* Responsive Breakpoints */
 @media (max-width: 1730px) {
   .shorts-cards {
-    flex: 0 0 calc((100% - 15px * 5) / 6);
+    flex: 0 0 calc((100% - var(--shorts-gap) * 5) / 6);
   }
   .shorts-cards:nth-child(n + 7) {
     display: none;
   }
 }
 
-/* 5개 */
 @media (max-width: 1440px) {
   .shorts-cards {
-    flex: 0 0 calc((100% - 15px * 4) / 5);
+    flex: 0 0 calc((100% - var(--shorts-gap) * 4) / 5);
   }
   .shorts-cards:nth-child(n + 6) {
     display: none;
   }
 }
 
-/* 4개 */
 @media (max-width: 1215px) {
   .shorts-cards {
-    flex: 0 0 calc((100% - 15px * 3) / 4);
+    flex: 0 0 calc((100% - var(--shorts-gap) * 3) / 4);
   }
   .shorts-cards:nth-child(n + 5) {
     display: none;
   }
 }
 
-/* 3개 */
 @media (max-width: 999px) {
   .shorts-cards {
-    flex: 0 0 calc((100% - 15px * 2) / 3);
+    flex: 0 0 calc((100% - var(--shorts-gap) * 2) / 3);
   }
   .shorts-cards:nth-child(n + 4) {
     display: none;
   }
 }
 
-/* 2개 */
 @media (max-width: 649px) {
   .shorts-cards {
-    /* 사이드 바 너비에 따라 크기가 변동 될 것 같아 디버깅 확인용으로 min-width 설정을 추가하였음. */
-    flex: 0 0 max(var(--shorts-cards-min-width), calc((100% - 15px) / 2));
+    flex: 0 0 max(var(--shorts-cards-min-width), calc((100% - var(--shorts-gap)) / 2));
   }
   .shorts-cards:nth-child(n + 3) {
     display: none;

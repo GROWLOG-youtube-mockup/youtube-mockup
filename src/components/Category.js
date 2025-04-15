@@ -17,7 +17,7 @@ class Category {
     this.selectedCategory = null;
     this.chipScroll = null;
     this.arrow = { right: null, left: null };
-    this.onCategoryChange = onCategoryChange; // 카테고리 변경 콜백 추가
+    this.onCategoryChange = onCategoryChange;
 
     this.init();
     this.addDragging();
@@ -26,6 +26,12 @@ class Category {
   }
 
   init() {
+    this.createArrows();
+    this.createChipScroll();
+    this.updateArrowVisibility();
+  }
+
+  createArrows() {
     this.arrow.left = createElement('div', this.categoryDiv, { className: 'left_arrow' });
     this.arrow.right = createElement('div', this.categoryDiv, { className: 'right_arrow' });
 
@@ -39,41 +45,34 @@ class Category {
       innerText: '>',
       onclick: () => this.scrollBy(150)
     });
+  }
 
+  createChipScroll() {
     this.chipScroll = createElement('div', this.categoryDiv, { className: 'chip-scroll' });
 
     this.categories.forEach((category, index) => {
-      const isActive =
-        (!this.selectedCategory && index === 0) || this.selectedCategory === category;
+      const isActive = !this.selectedCategory && index === 0;
       const chip = createElement('div', this.chipScroll, {
-        className: 'chip',
+        className: `chip${isActive ? ' chip_active' : ''}`,
         innerText: category
       });
 
       if (isActive) {
-        chip.classList.add('chip_active');
         this.selectedCategory = category;
       }
 
-      chip.addEventListener('click', () => {
-        const currentActive = this.chipScroll.querySelector('.chip_active');
-
-        if (currentActive !== chip) {
-          currentActive?.classList.remove('chip_active');
-          chip.classList.add('chip_active');
-
-          //selectedCategory에 저장
-          this.selectedCategory = category;
-
-          // 선택된 카테고리를 콜백함수로 외부에에 전달
-          if (this.onCategoryChange) {
-            this.onCategoryChange(this.selectedCategory);
-          }
-        }
-      });
+      chip.addEventListener('click', () => this.handleChipClick(chip, category));
     });
+  }
 
-    this.updateArrowVisibility(); // 초기 상태에서 화살표 표시 결정
+  handleChipClick(chip, category) {
+    const currentActive = this.chipScroll.querySelector('.chip_active');
+    if (currentActive !== chip) {
+      currentActive?.classList.remove('chip_active');
+      chip.classList.add('chip_active');
+      this.selectedCategory = category;
+      this.onCategoryChange?.(category);
+    }
   }
 
   scrollBy(offset) {
@@ -106,28 +105,28 @@ class Category {
     let startX;
     let scrollStart;
 
-    this.chipScroll.addEventListener('mousedown', (e) => {
+    const startDragging = (e) => {
       isDragging = true;
       startX = e.pageX;
       scrollStart = this.chipScroll.scrollLeft;
       this.chipScroll.classList.add('dragging');
-    });
+    };
 
-    document.addEventListener('mousemove', (e) => {
+    const stopDragging = () => {
+      isDragging = false;
+      this.chipScroll.classList.remove('dragging');
+    };
+
+    const drag = (e) => {
       if (!isDragging) return;
       const dx = e.pageX - startX;
       this.chipScroll.scrollLeft = scrollStart - dx;
-    });
+    };
 
-    document.addEventListener('mouseup', () => {
-      isDragging = false;
-      this.chipScroll.classList.remove('dragging');
-    });
-
-    this.chipScroll.addEventListener('mouseleave', () => {
-      isDragging = false;
-      this.chipScroll.classList.remove('dragging');
-    });
+    this.chipScroll.addEventListener('mousedown', startDragging);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDragging);
+    this.chipScroll.addEventListener('mouseleave', stopDragging);
   }
 }
 

@@ -33,6 +33,11 @@
   background-color: #f0f0f0;
 }
 
+.menu-button img {
+  width: 24px;
+  height: 24px;
+}
+
 .youtube-logo {
   height: 20px;
   cursor: pointer;
@@ -268,8 +273,8 @@
     display: flex;
   }
 
-  .create-button img {
-    margin-right: 0;
+  .create-button span {
+    display: none;
   }
 }
 

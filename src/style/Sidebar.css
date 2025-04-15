@@ -1,93 +1,121 @@
-/* 기본은 화이트 모드 */
-  .sidebar {
-    width: 240px;
-    background-color: white;
-    border-right: 1px solid #ddd;
-    height: calc(100vh - 56px);
-    position: fixed;
-    top: 56px;
-    left: 0;
-    overflow-y: auto;
-    transition: width 0.3s ease;
-  }
+:root {
+  --sidebar-width: 240px;
+  --header-height: 56px;
+  --sidebar-padding: 16px;
+  --sidebar-border-radius: 10px;
+  --sidebar-item-height: 40px;
 
-/* 모바일 크기 (< 768px): 사이드바 숨기기 */
+  /* Light theme */
+  --sidebar-bg-light: white;
+  --sidebar-hover-light: #f2f2f2;
+  --sidebar-active-hover-light: #e5e5e5;
+  --sidebar-text-light: #333;
+  --sidebar-border-light: #ddd;
+
+  /* Dark theme */
+  --sidebar-bg-dark: black;
+  --sidebar-hover-dark: #3d3d3d;
+  --sidebar-active-hover-dark: #4b4b4b;
+  --sidebar-text-dark: #fff;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--header-height));
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  background-color: var(--sidebar-bg-light);
+  border-right: 1px solid var(--sidebar-border-light);
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  scrollbar-width: thin;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.sidebar__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar__item {
+  padding: 10px var(--sidebar-padding);
+  transition: background-color 0.2s ease;
+}
+
+.sidebar__item:hover,
+.sidebar__item--active {
+  background-color: var(--sidebar-hover-light);
+  border-radius: var(--sidebar-border-radius);
+}
+
+.sidebar__item--active:hover {
+  background-color: var(--sidebar-active-hover-light);
+}
+
+.sidebar__link {
+  text-decoration: none;
+  color: var(--sidebar-text-light);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  height: var(--sidebar-item-height);
+}
+
+.sidebar__icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  color: var(--sidebar-text-light);
+}
+
+.sidebar__divider {
+  border: none;
+  height: 1px;
+  background-color: gray;
+  margin: 8px 5px;
+  opacity: 0.3;
+}
+
 @media (max-width: 767px) {
   .sidebar {
     display: none;
   }
 
   .content {
-    margin-left: 0; 
+    margin-left: 0;
     width: 100%;
   }
 }
-  
-  .sidebar__menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar__item {
-    padding: 10px 16px;
+
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    background-color: var(--sidebar-bg-dark);
   }
 
-  .sidebar__item:hover , .sidebar__item--active {
-    background-color: #f2f2f2;
-    border-radius: 10px;
+  .sidebar__icon {
+    color: var(--sidebar-text-dark);
+  }
+
+  .sidebar__link {
+    color: var(--sidebar-text-dark);
+  }
+
+  .sidebar__item:hover,
+  .sidebar__item--active {
+    background-color: var(--sidebar-hover-dark);
   }
 
   .sidebar__item--active:hover {
-    background-color: #e5e5e5; 
-    border-radius: 10px;
+    background-color: var(--sidebar-active-hover-dark);
+  }
 }
-
-  .sidebar__icon {
-    width: 20px; 
-    height: 20px; 
-    margin-right: 16px; 
-    color:#333;
-  }
-  
-  .sidebar__link {
-    text-decoration: none;
-    color: #333;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
-
-  .sidebar__divider {
-    border: none;
-    height: 1px;
-    background-color: gray;
-    margin: 8px 5px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-
-    .sidebar {
-        background-color: black; 
-    }
-
-    .sidebar__icon {
-      color: #fff;
-    }
-
-    .sidebar__link {
-        color: #fff; 
-    }
-
-    .sidebar__item:hover , .sidebar__item--active {
-        background-color: #3d3d3d; 
-        border-radius: 10px;
-    }
-
-    .sidebar__item--active:hover {
-        background-color: #4b4b4b; 
-        border-radius: 10px;
-    }
-      
-  }
-

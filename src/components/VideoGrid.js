@@ -1,7 +1,6 @@
 import { createElement } from '../utils/util.js';
 import VideoThumbnail from './VideoThumbnail.js';
 import Shorts from './Shorts.js';
-import VideoThumbnail from './VideoThumbnail.js';
 
 class VideoGrid {
   constructor() {

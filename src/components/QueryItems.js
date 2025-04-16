@@ -20,16 +20,13 @@ class QueryItems {
     // 검색 이벤트 리스너 추가
     const searchInput = document.querySelector('.search-input');
     const searchButton = document.querySelector('.search-button');
-    if (searchInput && searchButton) {
-      searchButton.addEventListener('click', () => {
-        this.searchVideos(searchInput.value);
-      });
 
-      searchInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          this.searchVideos(searchInput.value);
-        }
-      });
+    if (searchInput && searchButton) {
+      searchButton.addEventListener('click', () => this.searchVideos(searchInput.value));
+      searchInput.addEventListener(
+        'keypress',
+        (e) => e.key === 'Enter' && this.searchVideos(searchInput.value)
+      );
       console.log('Search event listeners added');
     } else {
       console.error('Search elements not found in DOM');
@@ -39,8 +36,9 @@ class QueryItems {
   loadYouTubeAPI() {
     const tag = document.createElement('script');
     tag.src = 'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    document
+      .getElementsByTagName('script')[0]
+      .parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
     console.log('YouTube API loaded');
   }
 
@@ -51,10 +49,10 @@ class QueryItems {
     // 검색 시 이전에 본 비디오 ID 초기화
     this.seenVideoIds = new Set();
 
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=16&q=${query}&type=video&key=${API_KEY}`;
-
     try {
-      const { items } = await this.fetchFromAPI(url, 0); // maxShorts 값을 0으로 설정
+      this.showLoadingIndicator();
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=16&q=${query}&type=video&key=${API_KEY}`;
+      const { items } = await this.fetchFromAPI(url, 0);
 
       if (!items || items.length === 0) {
         console.log('No search results found');
@@ -65,7 +63,7 @@ class QueryItems {
       // 검색 결과에서 비디오 ID 추출
       const videoIds = items.map((item) => item.id.videoId).join(',');
 
-      // 추가 비디오 정보 가져오기 (통계, 길이 등)
+      // 추가 비디오 정보 가져오기
       const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoIds}&key=${API_KEY}`;
       const detailsResponse = await fetch(detailsUrl);
       const detailsData = await detailsResponse.json();
@@ -74,7 +72,6 @@ class QueryItems {
       const detailsMap = new Map();
       detailsData.items?.forEach((detail) => {
         detailsMap.set(detail.id, detail);
-        // 조회수 캐싱
         this.viewCountCache.set(detail.id, detail.statistics?.viewCount || 'N/A');
       });
 
@@ -94,24 +91,27 @@ class QueryItems {
     } catch (error) {
       console.error('Search error:', error);
       this.displayVideos([], []);
+    } finally {
+      this.hideLoadingIndicator();
     }
   }
 
   async fetchPopularVideos() {
     console.log('Fetching popular videos');
-    // 전체 카테고리 로드시 이전에 본 비디오 ID 초기화
     this.seenVideoIds = new Set();
     this.currentCategory = '전체';
 
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
-
     try {
+      this.showLoadingIndicator();
+      const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&key=${API_KEY}`;
       const data = await this.fetchFromAPI(url, 0);
       console.log(`Fetched ${data.items.length} popular videos`);
       await this.displayVideos(data.items);
     } catch (error) {
       console.error('Error fetching popular videos:', error);
       this.displayVideos([], []);
+    } finally {
+      this.hideLoadingIndicator();
     }
   }
 
@@ -137,8 +137,7 @@ class QueryItems {
       브이로그: () => this.fetchCategoryVideos(22, 'Fetching vlog videos')
     };
 
-    const fetchFunction = categoryMap[category] || (() => this.fetchPopularVideos());
-    fetchFunction();
+    (categoryMap[category] || (() => this.fetchPopularVideos()))();
   }
 
   async fetchCategoryVideos(categoryId, logMessage, options = {}) {
@@ -146,47 +145,36 @@ class QueryItems {
     const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=${categoryId}&key=${API_KEY}`;
 
     try {
+      this.showLoadingIndicator();
       const maxShorts = options.maxShorts !== undefined ? options.maxShorts : 7;
       console.log(`Fetching category ${categoryId} with maxShorts: ${maxShorts}`);
 
-      // 로딩 표시 추가
-      this.showLoadingIndicator();
-
       const { items, shorts } = await this.fetchFromAPI(url, maxShorts);
-
-      // 로딩 표시 제거
-      this.hideLoadingIndicator();
-
       await this.displayVideos(items, shorts);
     } catch (error) {
-      this.hideLoadingIndicator();
       console.error(`Error fetching ${logMessage}:`, error);
+    } finally {
+      this.hideLoadingIndicator();
     }
   }
 
-  // 로딩 표시 함수
+  // UI 관련 헬퍼 함수
   showLoadingIndicator() {
     const contentContainer = document.querySelector('.video-grid');
-    if (!contentContainer) return;
-
-    contentContainer.innerHTML = '<div class="loading-indicator">로딩 중...</div>';
+    if (contentContainer) {
+      contentContainer.innerHTML = '<div class="loading-indicator">로딩 중...</div>';
+    }
   }
 
   hideLoadingIndicator() {
     const loadingIndicator = document.querySelector('.loading-indicator');
-    if (loadingIndicator) {
-      loadingIndicator.remove();
-    }
+    if (loadingIndicator) loadingIndicator.remove();
   }
 
+  // API 호출 헬퍼 함수
   buildApiUrl(endpoint, params) {
     const baseUrl = 'https://www.googleapis.com/youtube/v3';
-    const queryParams = new URLSearchParams({
-      ...params,
-      key: API_KEY
-    }).toString();
-
-    return `${baseUrl}/${endpoint}?${queryParams}`;
+    return `${baseUrl}/${endpoint}?${new URLSearchParams({ ...params, key: API_KEY })}`;
   }
 
   async fetchPaginatedData(url, maxLongForm = 16, maxShorts = 7) {
@@ -194,59 +182,49 @@ class QueryItems {
     const shorts = [];
     let nextPageToken = null;
     const channelIds = new Set();
-
-    // Maximum 2 page fetches to avoid too many API calls
     const maxPages = 2;
-    let currentPage = 0;
 
-    while (currentPage < maxPages) {
+    for (let currentPage = 0; currentPage < maxPages; currentPage++) {
       const paginatedUrl = nextPageToken ? `${url}&pageToken=${nextPageToken}` : url;
 
       try {
         const response = await fetch(paginatedUrl);
-
-        if (!response.ok) {
-          throw new Error(`API request failed with status ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
 
         const data = await response.json();
         nextPageToken = data.nextPageToken;
-
         if (!data.items?.length) break;
 
-        // Collect channel IDs for batch fetching
+        // 채널 ID 수집 및 조회수 캐싱
         data.items.forEach((item) => {
           const channelId = item.snippet?.channelId;
           if (channelId) channelIds.add(channelId);
 
-          // Cache view counts directly from the response
           const videoId = item.id?.videoId || item.id;
           if (videoId && item.statistics?.viewCount) {
             this.viewCountCache.set(videoId, item.statistics.viewCount);
           }
         });
 
+        // 비디오 분류
         const categorizedVideos = this.categorizeVideos(data.items, maxShorts);
         items.push(...categorizedVideos.items);
         shorts.push(...categorizedVideos.shorts);
 
-        // Break if we have enough videos
-        if (items.length >= maxLongForm && (maxShorts === 0 || shorts.length >= maxShorts)) break;
-
-        // Break if no more pages
-        if (!nextPageToken) break;
-
-        currentPage++;
+        // 충분한 비디오를 얻었거나 더 이상 페이지가 없으면 중단
+        if (
+          (items.length >= maxLongForm && (maxShorts === 0 || shorts.length >= maxShorts)) ||
+          !nextPageToken
+        )
+          break;
       } catch (error) {
         console.error('API error:', error);
         break;
       }
     }
 
-    // Prefetch channel avatars in batch
-    if (channelIds.size > 0) {
-      await this.prefetchChannelAvatars(Array.from(channelIds));
-    }
+    // 채널 아바타 사전 로딩
+    if (channelIds.size > 0) await this.prefetchChannelAvatars(Array.from(channelIds));
 
     return {
       items: items.slice(0, maxLongForm),
@@ -256,29 +234,19 @@ class QueryItems {
 
   categorizeVideos(videos, maxShorts) {
     const categorized = { items: [], shorts: [] };
-    const currentVideoIds = new Set(); // 현재 요청에서 발견된 비디오 ID 추적
+    const currentVideoIds = new Set();
 
     for (const video of videos) {
       const videoId = video.id?.videoId || video.id;
-      if (!videoId || currentVideoIds.has(videoId)) continue;
+      if (!videoId || currentVideoIds.has(videoId) || this.seenVideoIds.has(videoId)) continue;
 
-      // 중복 방지를 위해 현재 요청 내에서 비디오 ID 추적
+      // 비디오 ID 추적
       currentVideoIds.add(videoId);
-
-      // 같은 카테고리 내에서 중복 방지를 위해 이전에 본 ID 확인
-      if (this.seenVideoIds.has(videoId)) continue;
-
-      // 이 비디오 ID를 본 것으로 기록
       this.seenVideoIds.add(videoId);
 
       // 쇼츠 여부 확인
       const isShort = maxShorts > 0 && this.isShortBasedOnDuration(video.contentDetails?.duration);
-
-      if (isShort) {
-        categorized.shorts.push(video);
-      } else {
-        categorized.items.push(video);
-      }
+      categorized[isShort ? 'shorts' : 'items'].push(video);
     }
 
     return categorized;
@@ -286,49 +254,37 @@ class QueryItems {
 
   isShortBasedOnDuration(duration) {
     if (!duration) return false;
-
-    // Parse ISO 8601 duration
     const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
     if (!match) return false;
 
     const hours = parseInt(match[1] || 0);
     const minutes = parseInt(match[2] || 0);
     const seconds = parseInt(match[3] || 0);
-
-    // Calculate total seconds
-    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-
-    // Shorts are typically under 60 seconds
-    return totalSeconds <= 60;
+    return hours * 3600 + minutes * 60 + seconds <= 60;
   }
 
   async prefetchChannelAvatars(channelIds) {
     if (!channelIds.length) return;
 
-    // Filter out already cached channel IDs
+    // 이미 캐시된 채널 ID 필터링
     const uncachedChannelIds = channelIds.filter((id) => !this.channelAvatarCache.has(id));
     if (!uncachedChannelIds.length) return;
 
-    // Batch fetch in groups of 50 (API limit)
+    // 배치 처리 (API 제한: 50개씩)
     for (let i = 0; i < uncachedChannelIds.length; i += 50) {
       const batch = uncachedChannelIds.slice(i, i + 50);
-      const url = this.buildApiUrl('channels', {
-        part: 'snippet',
-        id: batch.join(',')
-      });
+      const url = this.buildApiUrl('channels', { part: 'snippet', id: batch.join(',') });
 
       try {
         const response = await fetch(url);
         const data = await response.json();
 
-        if (data.items) {
-          data.items.forEach((channel) => {
-            const avatarUrl =
-              channel.snippet?.thumbnails?.default?.url ||
-              '../../assets/images/avatars/default-avatar.png';
-            this.channelAvatarCache.set(channel.id, avatarUrl);
-          });
-        }
+        data.items?.forEach((channel) => {
+          const avatarUrl =
+            channel.snippet?.thumbnails?.default?.url ||
+            '../../assets/images/avatars/default-avatar.png';
+          this.channelAvatarCache.set(channel.id, avatarUrl);
+        });
       } catch (error) {
         console.error('Error batch fetching channel avatars:', error);
       }
@@ -353,7 +309,7 @@ class QueryItems {
     const contentContainer = document.querySelector('.video-grid');
     if (!contentContainer) return;
 
-    // 비디오가 없을 경우 사용자에게 알림
+    // 비디오가 없을 경우 메시지 표시
     if ((!videos || videos.length === 0) && (!shortFormVideos || shortFormVideos.length === 0)) {
       contentContainer.innerHTML = '<div class="no-videos-message">표시할 콘텐츠가 없습니다.</div>';
       console.warn('No videos to display.');
@@ -366,19 +322,13 @@ class QueryItems {
       !shortFormVideos || shortFormVideos.length === 0
     );
 
-    // 레이아웃 최적화를 위한 데이터 조정: 일반 비디오 개수에 따라 쇼츠 위치 결정
-    const minRegularVideosForNormalLayout = 8; // 정상 레이아웃을 위한 최소 일반 비디오 개수
-    const shouldArrangeForSmallSet =
-      videos &&
-      videos.length < minRegularVideosForNormalLayout &&
-      shortFormVideos &&
-      shortFormVideos.length > 0;
+    // 레이아웃 최적화 결정
+    const shouldArrangeForSmallSet = videos?.length < 8 && shortFormVideos?.length > 0;
 
-    // Generate all card data in parallel
+    // 모든 카드 데이터 병렬 처리
     const videoCardDataList = await Promise.all(
       (videos || []).map((video) => this.generateCardData(video))
     );
-
     const shortCardDataList = await Promise.all(
       (shortFormVideos || []).map((video) => this.generateCardData(video))
     );
@@ -386,8 +336,6 @@ class QueryItems {
     console.log(
       `Displaying ${videoCardDataList.length} videos and ${shortCardDataList.length} shorts`
     );
-
-    // VideoGrid.js에 레이아웃 최적화 정보 함께 전달
     this.videoGrid.updateVideos(videoCardDataList, shortCardDataList, shouldArrangeForSmallSet);
   }
 
@@ -395,7 +343,7 @@ class QueryItems {
     const videoId = video.id.videoId || video.id;
     const { channelId } = video.snippet;
 
-    // Use cached data when available
+    // 캐시된 데이터 사용
     const viewCount = this.viewCountCache.has(videoId)
       ? this.viewCountCache.get(videoId)
       : await this.fetchVideoViewCount(videoId);
@@ -417,20 +365,13 @@ class QueryItems {
 
   async fetchVideoViewCount(videoId) {
     try {
-      if (this.viewCountCache.has(videoId)) {
-        return this.viewCountCache.get(videoId);
-      }
+      if (this.viewCountCache.has(videoId)) return this.viewCountCache.get(videoId);
 
-      const url = this.buildApiUrl('videos', {
-        part: 'statistics',
-        id: videoId
-      });
-
+      const url = this.buildApiUrl('videos', { part: 'statistics', id: videoId });
       const response = await fetch(url);
       const data = await response.json();
       const viewCount = data.items?.[0]?.statistics?.viewCount || 'N/A';
 
-      // Cache the result
       this.viewCountCache.set(videoId, viewCount);
       return viewCount;
     } catch (error) {
@@ -441,22 +382,15 @@ class QueryItems {
 
   async fetchChannelAvatar(channelId) {
     try {
-      if (this.channelAvatarCache.has(channelId)) {
-        return this.channelAvatarCache.get(channelId);
-      }
+      if (this.channelAvatarCache.has(channelId)) return this.channelAvatarCache.get(channelId);
 
-      const url = this.buildApiUrl('channels', {
-        part: 'snippet',
-        id: channelId
-      });
-
+      const url = this.buildApiUrl('channels', { part: 'snippet', id: channelId });
       const response = await fetch(url);
       const data = await response.json();
       const avatarUrl =
         data.items?.[0]?.snippet?.thumbnails?.default?.url ||
         '../../assets/images/avatars/default-avatar.png';
 
-      // Cache the result
       this.channelAvatarCache.set(channelId, avatarUrl);
       return avatarUrl;
     } catch (error) {
@@ -476,9 +410,7 @@ class QueryItems {
     ];
 
     for (const { value, suffix } of units) {
-      if (count >= value) {
-        return `${Math.floor(count / value)}${suffix}회`;
-      }
+      if (count >= value) return `${Math.floor(count / value)}${suffix}회`;
     }
 
     return `${count}회`;
@@ -503,9 +435,7 @@ class QueryItems {
 
     for (const { value, unit } of timeUnits) {
       const diff = Math.floor(diffMs / value);
-      if (diff > 0) {
-        return `${diff}${unit} 전`;
-      }
+      if (diff > 0) return `${diff}${unit} 전`;
     }
 
     return '방금 전';

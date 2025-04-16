@@ -2,6 +2,7 @@ import { formatDuration } from '../utils/util.js';
 import { API_KEY } from './const.js';
 import VideoGrid from './VideoGrid.js'; 
 
+
 class QueryItems {
   initializeApp() {
     // VideoGrid 인스턴스 생성 및 초기화
@@ -287,6 +288,7 @@ class QueryItems {
         console.error('Error fetching viewCount:', error);
       }
     }
+
 
     // 비디오 썸네일 URL
     const publishedAt = this.formatPublishedDate(video.snippet.publishedAt);

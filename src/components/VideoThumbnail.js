@@ -1,4 +1,5 @@
 class VideoThumbnail {
+
   constructor({ videoThumbnail, avatar, title, channelId, videoState, duration = '12:34' }) {
     this.data = { videoThumbnail, avatar, title, channelId, videoState, duration };
     this.element = this.createElement();
@@ -9,6 +10,7 @@ class VideoThumbnail {
     wrapper.className = 'video-card';
 
     wrapper.innerHTML = `
+
         <div class="thumbnail-wrapper">
           <img class="video-thumbnail" src="${this.data.videoThumbnail}" alt="영상 썸네일">
           <div class="video-duration">${this.data.duration}</div>
@@ -33,3 +35,4 @@ class VideoThumbnail {
 }
 
 export default VideoThumbnail;
+

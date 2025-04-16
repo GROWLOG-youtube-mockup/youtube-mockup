@@ -28,16 +28,28 @@ class QueryItems {
   // 검색 기능
   async searchVideos(query) {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=16&q=${query}&type=video&key=${API_KEY}`;
-    const { items } = await this.fetchFromAPI(url, 0); // maxShorts 값을 0으로 설정
+    const { items } = await this.fetchFromAPI(url, 0);
 
-    // 검색 결과 변환
-    const formattedItems = items.map((item) => ({
-      id: item.id.videoId,
-      snippet: item.snippet,
-      statistics: { viewCount: 'N/A' } // 검색 API는 통계를 제공하지 않음
-    }));
+    // videoId 추출
+    const videoIds = items.map((item) => item.id.videoId).join(',');
 
-    this.displayVideos(formattedItems);
+    // videos 엔드포인트 호출
+    const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoIds}&key=${API_KEY}`;
+    const detailsResponse = await fetch(detailsUrl);
+    const detailsData = await detailsResponse.json();
+
+    // contentDetails와 statistics를 items에 병합
+    const detailedItems = items.map((item) => {
+      const detail = detailsData.items.find((d) => d.id === item.id.videoId);
+      return {
+        ...item,
+        snippet: detail?.snippet || item.snippet,
+        contentDetails: detail?.contentDetails || {},
+        statistics: detail?.statistics || {},
+      };
+    });
+
+    this.displayVideos(detailedItems);
   }
 
   // 인기 비디오 로드
@@ -97,7 +109,7 @@ class QueryItems {
   // 카테고리별 비디오 로드 메서드
   async fetchCategoryVideos(categoryId, logMessage, options = {}) {
     console.log(logMessage);
-    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=16&videoCategoryId=${categoryId}&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=50&videoCategoryId=${categoryId}&key=${API_KEY}`;
 
     try {
       const maxShorts = options.maxShorts !== undefined ? options.maxShorts : 7;
@@ -156,30 +168,30 @@ class QueryItems {
     let items = [];
     let shorts = [];
     let nextPageToken = null;
-    const seenVideoIds = new Set(); // 중복 제거를 위한 Set
-  
-    while (true) {
+    const seenVideoIds = new Set();
+
+    while (items.length < maxLongForm || shorts.length < maxShorts) {
       const paginatedUrl = nextPageToken ? `${url}&pageToken=${nextPageToken}` : url;
-  
+
       const response = await fetch(paginatedUrl);
       if (!response.ok) {
         console.error(`API request failed with status ${response.status}`);
         break;
       }
-  
+
       const data = await response.json();
       nextPageToken = data.nextPageToken;
-  
+
       if (!data.items || data.items.length === 0) {
         break;
       }
-  
+
       const categorizedVideos = await Promise.all(
         data.items.reduce((acc, video) => {
           const videoId = video.id?.videoId || video.id;
-          if (!videoId || seenVideoIds.has(videoId)) return acc; // 조건에 맞지 않으면 건너뜀
-  
-          seenVideoIds.add(videoId); // 중복 방지용 ID 저장
+          if (!videoId || seenVideoIds.has(videoId)) return acc;
+
+          seenVideoIds.add(videoId);
           acc.push(
             (async () => {
               const isShort = maxShorts > 0 ? await this.isShortVideo(videoId) : false;
@@ -189,29 +201,24 @@ class QueryItems {
           return acc;
         }, [])
       );
-  
+
       categorizedVideos.forEach((item) => {
-        if (item?.isShort) {
+        if (item?.isShort && shorts.length < maxShorts) {
           shorts.push(item.video);
-        } else {
+        } else if (!item?.isShort && items.length < maxLongForm) {
           items.push(item.video);
         }
       });
-  
-      if (items.length >= maxLongForm && (maxShorts === 0 || shorts.length >= maxShorts)) {
-        console.log('Reached maximum limits for long-form and/or shorts.');
-        break;
-      }
-  
+
       if (!nextPageToken) {
         console.warn('No more pages available. Stopping.');
         break;
       }
     }
-  
+
     return {
-      items: items.slice(0, maxLongForm),
-      shorts: shorts.slice(0, maxShorts)
+      items,
+      shorts
     };
   };
 
@@ -233,7 +240,7 @@ class QueryItems {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
-        resolve(img.naturalHeight > img.naturalWidth);
+        resolve(img.naturalHeight >= img.naturalWidth);
       };
       img.onerror = () => {
         resolve(false);
@@ -276,36 +283,23 @@ class QueryItems {
     const rawDuration = video.contentDetails?.duration || 'PT0M0S';
     const formattedDuration = formatDuration(rawDuration);
 
-    let viewCount = video.statistics?.viewCount || 'N/A';
-    if (viewCount === 'N/A') {
-      try {
-        const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${API_KEY}`;
-        const statsResponse = await fetch(statsUrl);
-        const statsData = await statsResponse.json();
-        viewCount = statsData.items?.[0]?.statistics?.viewCount || 'N/A';
-      } catch (error) {
-        console.error('Error fetching viewCount:', error);
-      }
-    }
+    const viewCount = video.statistics?.viewCount || 'N/A';
 
-    // 비디오 썸네일 URL
+    // 비동기 처리 병렬화
+    const [avatar, videoThumbnail] = await Promise.all([
+      fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channel}&key=${API_KEY}`)
+        .then((response) => response.json())
+        .then((data) =>
+          data.items?.[0]?.snippet?.thumbnails?.default?.url || '../../assets/images/avatars/default-avatar.png'
+)
+        .catch((error) => {
+          console.error('Error fetching avatar:', error);
+          return '../../assets/images/avatars/default-avatar.png';
+        }),
+      Promise.resolve(`https://i.ytimg.com/vi/${videoId}/mqdefault.jpg` || '../../assets/images/thumbnails/default-thumbnail.jpg')
+    ]);
+
     const publishedAt = this.formatPublishedDate(video.snippet.publishedAt);
-    const videoThumbnail =
-      `https://i.ytimg.com/vi_webp/${videoId}/mqdefault.webp` ||
-      '../../assets/images/thumbnails/default-thumbnail.jpg';
-    const avatarlink = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channel}&key=${API_KEY}`;
-
-    const avatar = await fetch(avatarlink)
-      .then((response) => response.json())
-      .then(
-        (data) =>
-          data.items?.[0]?.snippet?.thumbnails?.default?.url ||
-          '../../assets/images/avatars/default-avatar.png'
-      )
-      .catch((error) => {
-        console.error('Error fetching avatar:', error);
-        return '../../assets/images/avatars/default-avatar.png';
-      });
 
     return {
       videoThumbnail,

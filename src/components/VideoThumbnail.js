@@ -1,14 +1,16 @@
 class VideoThumbnail {
-    constructor({ videoThumbnail, avatar, title, channelId, videoState, duration = '12:34' }) {
-      this.data = { videoThumbnail, avatar, title, channelId, videoState, duration };
-      this.element = this.createElement();
-    }
-  
-    createElement() {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'video-card';
-  
-      wrapper.innerHTML = `
+
+  constructor({ videoThumbnail, avatar, title, channelId, videoState, duration = '12:34' }) {
+    this.data = { videoThumbnail, avatar, title, channelId, videoState, duration };
+    this.element = this.createElement();
+  }
+
+  createElement() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'video-card';
+
+    wrapper.innerHTML = `
+
         <div class="thumbnail-wrapper">
           <img class="video-thumbnail" src="${this.data.videoThumbnail}" alt="영상 썸네일">
           <div class="video-duration">${this.data.duration}</div>
@@ -23,14 +25,14 @@ class VideoThumbnail {
           <button class="btn-more">...</button>
         </div>
       `;
-  
-      return wrapper;
-    }
-  
-    getElement() {
-      return this.element;
-    }
+
+    return wrapper;
   }
-  
-  export default VideoThumbnail;
-  
+
+  getElement() {
+    return this.element;
+  }
+}
+
+export default VideoThumbnail;
+

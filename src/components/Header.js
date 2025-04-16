@@ -1,6 +1,9 @@
+import QueryItems from './QueryItems.js';
+
 class Header {
   constructor() {
     this.header = document.querySelector('.header');
+    this.queryItems = new QueryItems(); // QueryItems 인스턴스 생성
     this.init();
   }
 
@@ -58,23 +61,17 @@ class Header {
   }
 
   addEventListeners() {
-    // const menuButton = this.header.querySelector('.sidebar-toggle-btn');
     const searchForm = this.header.querySelector('.search-form');
-
-    /* menuButton.addEventListener('click', () => {
-      this.toggleSidebar();
-    }); */
+    const searchInput = this.header.querySelector('.search-input');
 
     searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      // 검색 기능 구현 자리
+      const query = searchInput.value.trim(); // 검색어 가져오기
+
+      console.log(`검색어: ${query}`);
+      this.queryItems.searchVideos(query); // this가 올바른 컨텍스트를 참조
     });
   }
-
-  /* 햄버거 버튼 눌러서 사이드바 오픈 함수
-  toggleSidebar() {
-    this.header.classList.toggle('sidebar-open');
-  } */
 }
 
 export default Header;

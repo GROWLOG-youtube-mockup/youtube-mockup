@@ -38,12 +38,27 @@ class VideoGrid {
   }
 
   renderVideos() {
+    if (!this.videoGrid) {
+      console.error('Video grid element not found');
+      return;
+    }
+
     this.videoGrid.innerHTML = '';
     this.videos.forEach((video) => this.createVideoCard(video));
   }
 
   renderShorts() {
-    if (!this.cards.length) return;
+    // 이전에 렌더링된 shorts-container가 있다면 제거
+    const existingShorts = this.videoGrid?.querySelector('.shorts-container');
+    if (existingShorts) {
+      existingShorts.remove();
+    }
+
+    // shorts가 없으면 렌더링하지 않음
+    if (!this.cards || this.cards.length === 0) {
+      console.log('No shorts to render');
+      return;
+    }
 
     const shortsContainer = createElement('div', this.videoGrid, {
       className: 'shorts-container'
@@ -54,10 +69,15 @@ class VideoGrid {
       cards: this.cards
     });
 
-    console.log('Shorts rendered:', this.cards);
+    console.log('Shorts rendered:', this.cards.length);
   }
 
   createVideoCard(video) {
+    if (!this.videoGrid) {
+      console.error('Video grid element not found');
+      return;
+    }
+
     const thumbnail = new VideoThumbnail(video);
     const element = thumbnail.getElement();
 
@@ -68,14 +88,26 @@ class VideoGrid {
     this.videoGrid.appendChild(element);
   }
 
-  updateVideos(newVideos = [], newShorts = []) {
-    if (!newVideos.length) {
-      console.error('No videos to update');
+  updateVideos(newVideos = [], newShorts = [], shouldArrangeForSmallSet = false) {
+    console.log(`Updating videos: ${newVideos.length} videos, ${newShorts.length} shorts`);
+
+    if (!newVideos.length && !newShorts.length) {
+      console.warn('No videos or shorts to display');
+      if (this.videoGrid) {
+        this.videoGrid.innerHTML = '<div class="no-videos-message">표시할 콘텐츠가 없습니다.</div>';
+      }
       return;
     }
 
     this.videos = newVideos;
     this.cards = newShorts;
+
+    // 최적화된 레이아웃을 위한 로직 추가
+    if (shouldArrangeForSmallSet) {
+      console.log('Optimizing layout for small video set');
+      // 여기에 레이아웃 최적화 로직 추가
+    }
+
     this.init();
   }
 
